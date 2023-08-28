@@ -1,3 +1,5 @@
+"use client";
+
 import { configureStore } from "@reduxjs/toolkit";
 import { default as rootSlice } from "./rootReducer";
 import logger from "redux-logger";

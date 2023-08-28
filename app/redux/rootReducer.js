@@ -1,9 +1,11 @@
-import { combineReducers } from 'redux';
+"use client";
+
+import { combineReducers } from "redux";
 import authReducer from "./slices/authSlice";
 
 const rootReducer = combineReducers({
   auth: authReducer,
-//   toast: toastReducer,  // Show alerts
+  //   toast: toastReducer,  // Show alerts
 });
 
 export default rootReducer;

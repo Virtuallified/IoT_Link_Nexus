@@ -2,7 +2,6 @@ import "./globals.css";
 import { Inter } from "next/font/google";
 import { Theme } from "@radix-ui/themes";
 import { Providers } from "./redux/provider";
-import AuthUserContext from "@/firebase/firebaseAuth";
 
 // UI/UX Styling
 import "@radix-ui/themes/styles.css";
