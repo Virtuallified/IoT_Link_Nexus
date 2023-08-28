@@ -3,6 +3,14 @@
 import React from "react";
 import { Field, reduxForm } from "redux-form";
 
+const required = (value) => (value ? undefined : "Required");
+const emailValidator = (value) =>
+  /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value)
+    ? undefined
+    : "Invalid email address";
+const minLength8 = (value) =>
+  value && value.length < 8 ? "Must be at least 8 characters" : undefined;
+
 const RegisterForm = ({ handleSubmit }) => {
   return (
     <form onSubmit={handleSubmit}>
@@ -12,7 +20,7 @@ const RegisterForm = ({ handleSubmit }) => {
           name="email"
           component="input"
           type="email"
-          validate={[required, email]}
+          validate={[required, emailValidator]}
         />
       </div>
       <div>
@@ -29,12 +37,7 @@ const RegisterForm = ({ handleSubmit }) => {
   );
 };
 
-const required = (value) => (value ? undefined : "Required");
-const email = (value) =>
-  /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value)
-    ? undefined
-    : "Invalid email address";
-const minLength8 = (value) =>
-  value && value.length < 8 ? "Must be at least 8 characters" : undefined;
-
-export default reduxForm({ form: "register" })(RegisterForm);
+export default reduxForm({
+  form: "register",
+  enableReinitialize: true, // enable form values to be updated
+})(RegisterForm);

@@ -1,13 +1,15 @@
+import { Avatar, Flex } from "@radix-ui/themes";
+
 export default function Home() {
   return (
     <>
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="">
-        <p className="">
-          Get started by editing
-        </p>
-      </div>
-    </main>
+      <main className="flex min-h-screen flex-col items-center justify-between p-24">
+        <div className="">
+          <p className="">
+            Get started by editing
+          </p>
+        </div>
+      </main>
     </>
-  )
+  );
 }
