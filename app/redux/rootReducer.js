@@ -2,11 +2,11 @@
 
 import { combineReducers } from "redux";
 import { reducer as formReducer } from "redux-form";
-import authReducer from "./slices/authSlice";
+import userReducer from "./slices/userSlice";
 
 const rootReducer = combineReducers({
   form: formReducer, // include formReducer in the combineReducers call to make redux-form work properly
-  auth: authReducer,
+  user: userReducer,
   //   toast: toastReducer,  // Show alerts
 });
 

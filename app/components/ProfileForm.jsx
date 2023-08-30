@@ -3,14 +3,13 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { Field, reduxForm } from "redux-form";
-import { Card, Container, Content, Flex, Panel } from "@radix-ui/themes";
 
 const ProfileForm = ({ handleSubmit }) => {
   const user = useSelector((state) => state.user);
 
   return (
     <Container>
-      <Panel>
+      {/* <Panel>
         <Content>
           <Card>
             <form onSubmit={handleSubmit}>
@@ -28,7 +27,7 @@ const ProfileForm = ({ handleSubmit }) => {
             </form>
           </Card>
         </Content>
-      </Panel>
+      </Panel> */}
     </Container>
   );
 };

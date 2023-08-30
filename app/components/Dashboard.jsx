@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
-import { Card, Container } from "@radix-ui/themes";
 
 const Dashboard = () => {
   // const user = useSelector((state) => state.user);
@@ -31,13 +30,11 @@ const Dashboard = () => {
     <div>
       <h2>Dashboard</h2>
       {data && (
-        <Container>
-          <Card>
-            <p>Humidity: {data.humidity}</p>
-            <p>Temperature: {data.temperature}</p>
-            <p>Live Status: {data.liveStatus}</p>
-          </Card>
-        </Container>
+        <div>
+          <p>Humidity: {data.humidity}</p>
+          <p>Temperature: {data.temperature}</p>
+          <p>Live Status: {data.liveStatus}</p>
+        </div>
       )}
     </div>
   );

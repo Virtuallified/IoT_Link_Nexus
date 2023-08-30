@@ -1,12 +1,23 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { auth } from "@/firebase/firebase.config";
-import bcrypt from "bcryptjs";
+import {
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  updateProfile,
+  GoogleAuthProvider,
+  signInWithPopup,
+} from "firebase/auth";
+// import bcrypt from "bcryptjs";
 
 const userSlice = createSlice({
   name: "user",
-  initialState: null,
+  initialState: null, // Initial state should be null or an empty object
   reducers: {
-    setUser: (state, action) => action.payload,
+    setUser: (state, action) => {
+      // Extract and store only the serializable properties from the user object
+      const { uid, displayName, email, photoURL } = action.payload;
+      return { uid, displayName, email, photoURL };
+    },
     clearUser: (state) => null,
   },
 });
@@ -19,7 +30,8 @@ export const loginUser =
   ({ email, password }) =>
   async (dispatch) => {
     try {
-      const userCredential = await auth.signInWithEmailAndPassword(
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
         email,
         password
       );
@@ -33,18 +45,18 @@ export const registerUser =
   ({ email, password }) =>
   async (dispatch) => {
     try {
-      const hashedPassword = await bcrypt.hash(password, saltRounds);
-      const userCredential = await auth.createUserWithEmailAndPassword(
+      // * Hash password if you're saving it into a general db via sql/nosql
+      // const hashedPassword = await bcrypt.hash(password, saltRounds);
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
         email,
-        hashedPassword
+        password
       );
       dispatch(setUser(userCredential.user));
     } catch (error) {
       console.error(error.message);
     }
   };
-
-// ... (same as before)
 
 export const updateUser =
   ({ uid, values }) =>
