@@ -1,9 +1,9 @@
 "use client";
 
 import React from "react";
-import Dashboard from "../../components/Dashboard";
-import { useAuthState } from "@/app/utils/authUtils"; // Import the useAuthState hook
 import { useRouter } from "next/navigation";
+import { useAuthState } from "@/app/utils/authUtils"; // Import the useAuthState hook
+import Dashboard from "../../components/Dashboard";
 import Navbar from "../../components/reusable/Navbar";
 
 const DashboardPage = () => {

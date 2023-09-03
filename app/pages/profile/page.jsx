@@ -1,11 +1,11 @@
 "use client";
 
 import React from "react";
-import ProfileForm from "../../components/ProfileForm";
+import { useRouter } from "next/navigation";
 import { useSelector, useDispatch } from "react-redux";
 import { updateUser } from "../../redux/slices/userSlice";
 import { useAuthState } from "@/app/utils/authUtils"; // Import the useAuthState hook
-import { useRouter } from "next/navigation";
+import ProfileForm from "../../components/ProfileForm";
 
 const ProfilePage = () => {
   // Get user from state and update to global redux store
