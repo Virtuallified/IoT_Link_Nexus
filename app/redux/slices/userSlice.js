@@ -11,7 +11,12 @@ import {
 
 const userSlice = createSlice({
   name: "user",
-  initialState: null, // Initial state should be null or an empty object
+  initialState: {
+    uid: "",
+    displayName: "",
+    email: "",
+    photoURL: "",
+  }, // Initial state should be null or an empty object
   reducers: {
     setUser: (state, action) => {
       // Extract and store only the serializable properties from the user object

@@ -3,9 +3,12 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import { Container, Content, Toggle, Text, Button } from "@radix-ui/themes";
+import { useAuthState } from "@/app/utils/authUtils"; // Import the useAuthState hook
 
 const Dashboard = () => {
   // const user = useSelector((state) => state.user);
+  const { signOut } = useAuthState();
   const [data, setData] = useState({
     humidity: 45,
     temperature: 23,
@@ -27,16 +30,17 @@ const Dashboard = () => {
   //   }, []);
 
   return (
-    <div>
+    <>
       <h2>Dashboard</h2>
       {data && (
-        <div>
+        <div id="dashboard">
           <p>Humidity: {data.humidity}</p>
           <p>Temperature: {data.temperature}</p>
           <p>Live Status: {data.liveStatus}</p>
         </div>
       )}
-    </div>
+      <Button onClick={() => signOut}>Logout</Button>
+    </>
   );
 };
 

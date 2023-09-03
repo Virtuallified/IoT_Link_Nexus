@@ -1,22 +1,42 @@
 "use client";
 
 import React from "react";
+import ProfileForm from "../../components/ProfileForm";
 import { useSelector, useDispatch } from "react-redux";
 import { updateUser } from "../../redux/slices/userSlice";
-import ProfileForm from "../../components/ProfileForm";
+import { useAuthState } from "@/app/utils/authUtils"; // Import the useAuthState hook
+import { useRouter } from "next/navigation";
 
 const ProfilePage = () => {
+  // Get user from state and update to global redux store
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user);
+  const userProfile = useSelector((state) => state?.user);
+
+  // Determine the authentication state and whether the authentication process is still loading.
+  const router = useRouter();
+  const { user, isLoading } = useAuthState();
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!user) {
+    return (
+      <>
+        <div>Not authenticated.</div>
+        {setTimeout(() => router.push("/pages/login"), 2000)}
+      </>
+    );
+  }
 
   const handleUpdate = (values) => {
-    dispatch(updateUser({ uid: user.uid, values }));
+    dispatch(updateUser({ uid: userProfile.uid, values }));
   };
 
   return (
     <div>
       <h2>Profile</h2>
-      <ProfileForm initialValues={user} onSubmit={handleUpdate} />
+      <ProfileForm initialValues={userProfile} onSubmit={handleUpdate} />
     </div>
   );
 };
