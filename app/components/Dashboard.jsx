@@ -1,33 +1,31 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Card, Container, Flex, Switch, Text, Button } from "@radix-ui/themes";
-import {
-  getSensorData,
-  updateSensorData,
-  deleteSensorData,
-  patchSensorData,
-} from "../api/firestore/route";
+import { getRealTimeSensorData } from "../api/realtime/route";
 import { useAuthState } from "@/app/utils/authUtils";
 
 const Dashboard = () => {
+  // Initial state should be null or an empty object
+  const initialState = {
+    id: null,
+    humidity: null,
+    temperature: null,
+    liveStatus: false,
+  };
+
   const user = useSelector((state) => state.user);
   const { signOut } = useAuthState();
-  const [data, setData] = useState({
-    humidity: 45,
-    temperature: 23,
-    liveStatus: true,
-  });
+  const [data, setData] = useState({ initialState });
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const sensorData = await getSensorData();
+        const sensorData = await getRealTimeSensorData();
         setData(sensorData);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
-
     fetchData();
   }, []);
 
@@ -54,7 +52,7 @@ const Dashboard = () => {
         {
           data && (
             // data.map((item) => (
-            <Container key={(data.id = "567")}>
+            <Container key={data.id}>
               <Flex>
                 <Card>
                   <Text>Humidity: {data.humidity}</Text>
@@ -63,7 +61,7 @@ const Dashboard = () => {
                   <Switch
                     checked={data.liveStatus === "on"}
                     onChange={() =>
-                      handleLiveStatusToggle((data.id = "567"), data.liveStatus)
+                      handleLiveStatusToggle(data.id, data.liveStatus)
                     }>
                     {data.liveStatus === "on" ? "Live On" : "Live Off"}
                   </Switch>
@@ -74,7 +72,7 @@ const Dashboard = () => {
           // ))
         }
       </div>
-      <Button onClick={() => signOut}>Logout</Button>
+      <Button onClick={signOut}>Logout</Button>
     </div>
   );
 };

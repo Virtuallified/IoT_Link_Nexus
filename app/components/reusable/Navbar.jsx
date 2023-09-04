@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
@@ -10,30 +12,29 @@ import {
   Card,
   Avatar,
 } from "@radix-ui/themes";
-import { clearUser } from "../../redux/slices/userSlice";
+import { useAuthState } from "@/app/utils/authUtils";
 
 const Navbar = () => {
   // Get user from state and update to global redux store
-  const dispatch = useDispatch();
   const user = useSelector((state) => state?.user);
   const router = useRouter();
+  const { signOut } = useAuthState();
 
   const handleLogout = () => {
-    // Dispatch action to clear user data
-    dispatch(clearUser());
+    signOut();
     // Redirect to login page
-    router("/pages/login");
+    router.push("/pages/login");
   };
 
   return (
     <div>
       <Tooltip content="User Profile">
         <Button>
-          <Avatar src={user.profileImage} alt="User Avatar" fallback="S" />
+          <Avatar src={user?.profileImage} alt="User Avatar" fallback="S" />
         </Button>
       </Tooltip>
       <Tooltip content="Dashboard">
-        <Button onClick={() => router("/pages/dashboard")}>
+        <Button onClick={() => router.push("/pages/dashboard")}>
           {/* <DashboardIcon /> */}
         </Button>
       </Tooltip>
