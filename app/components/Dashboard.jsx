@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Card, Container, Flex, Switch, Text, Button } from "@radix-ui/themes";
-import { getRealTimeSensorData } from "../api/realtime/route";
+import { getRealTimeSensorData, setTurnOnOff } from "../api/realtime/route";
 import { useAuthState } from "@/app/utils/authUtils";
 
 const Dashboard = () => {
   // Initial state should be null or an empty object
   const initialState = {
-    id: null,
+    device_id: null,
+    device_name: "",
     humidity: null,
     temperature: null,
     liveStatus: false,
@@ -16,61 +17,53 @@ const Dashboard = () => {
   const user = useSelector((state) => state.user);
   const { signOut } = useAuthState();
   const [data, setData] = useState({ initialState });
+  const [switchState, setSwitchState] = useState(false);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const sensorData = await getRealTimeSensorData();
-        setData(sensorData);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
     fetchData();
-  }, []);
+  }, [switchState]);
 
-  // const handleLiveStatusToggle = async (id, currentStatus) => {
-  //   try {
-  //     const newStatus = currentStatus === "on" ? "off" : "on";
-  //     await updateLiveStatus(id, newStatus);
+  const fetchData = () => {
+    try {
+      const sensorData = getRealTimeSensorData();
+      setData(sensorData);
+      setSwitchState(sensorData.liveStatus);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
-  //     // Update the local data state
-  //     setData((prevData) =>
-  //       prevData.map((item) =>
-  //         item.id === id ? { ...item, liveStatus: newStatus } : item
-  //       )
-  //     );
-  //   } catch (error) {
-  //     console.error("Error updating live status:", error);
-  //   }
-  // };
+  const handleLiveStatusToggle = (id, currentStatus) => {
+    try {
+      currentStatus
+        ? setTurnOnOff(false) && setSwitchState(false)
+        : setTurnOnOff(true) && setSwitchState(true);
+      fetchData();
+    } catch (error) {
+      console.error("Error updating live status:", error);
+    }
+  };
 
   return (
     <div>
       <h2>Dashboard</h2>
       <div id="dashboard">
-        {
-          data && (
-            // data.map((item) => (
-            <Container key={data.id}>
-              <Flex>
-                <Card>
-                  <Text>Humidity: {data.humidity}</Text>
-                  <Text>Temperature: {data.temperature}</Text>
-                  <p>Live Status: {data.liveStatus}</p>
-                  <Switch
-                    checked={data.liveStatus === "on"}
-                    onChange={() =>
-                      handleLiveStatusToggle(data.id, data.liveStatus)
-                    }>
-                    {data.liveStatus === "on" ? "Live On" : "Live Off"}
-                  </Switch>
-                </Card>
-              </Flex>
-            </Container>
-          )
-          // ))
-        }
+        {data && (
+          <Container key={data.device_id}>
+            <Flex>
+              <Card>
+                <Text>Humidity: {data.humidity}</Text>
+                <Text>Temperature: {data.temperature}</Text>
+                <p>Live Status: {data.liveStatus}</p>
+                <Switch
+                  checked={switchState}
+                  onClick={() =>
+                    handleLiveStatusToggle(data.device_id, data.liveStatus)
+                  }></Switch>
+              </Card>
+            </Flex>
+          </Container>
+        )}
       </div>
       <Button onClick={signOut}>Logout</Button>
     </div>
