@@ -23,8 +23,8 @@ const RegisterPage = () => {
     dispatch(registerUser(values));
   };
 
-  return user ? (
-    "" // TODO: Fix console error: router.push("/pages/dashboard")
+  return user && !isLoading ? (
+    router.push("/pages/dashboard") // TODO: Fix console error
   ) : (
     <div>
       <h2>Register</h2>
