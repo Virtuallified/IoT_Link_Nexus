@@ -12,7 +12,6 @@ import {
 } from "@radix-ui/themes";
 import { DashboardIcon } from "@radix-ui/react-icons";
 import { getRealTimeSensorData, setTurnOnOff } from "../api/realtime/route";
-import { useAuthState } from "@/app/utils/authUtils";
 
 const Dashboard = () => {
   // Initial state should be null or an empty object
@@ -25,7 +24,6 @@ const Dashboard = () => {
   };
 
   const user = useSelector((state) => state.user);
-  const { signOut } = useAuthState();
   const [data, setData] = useState({ initialState });
   const [switchState, setSwitchState] = useState(false);
 
@@ -109,8 +107,8 @@ const Dashboard = () => {
               </Box>
             </Flex>
           </Card>
-          <Button onClick={signOut}>Logout</Button>
         </Container>
+        <br />
       </Box>
     </>
   );
