@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useSelector, useDispatch } from "react-redux";
 import { useAuthState } from "@/app/utils/authUtils";
 
-const Navbar = () => {
+export const Navbar = () => {
   // Get user from state and update to global redux store
   const user = useSelector((state) => state?.user);
   const router = useRouter();
@@ -165,5 +165,3 @@ const ListItem = React.forwardRef(
     </li>
   )
 );
-
-export default Navbar;

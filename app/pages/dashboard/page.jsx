@@ -4,7 +4,7 @@ import React from "react";
 import { useRouter } from "next/navigation";
 import { useAuthState } from "@/app/utils/authUtils"; // Import the useAuthState hook
 import Dashboard from "../../components/Dashboard";
-import Navbar from "../../components/reusable/Navbar";
+import { Navbar } from "../../components/reusable/Navbar";
 
 const DashboardPage = () => {
   // Determine the authentication state and whether the authentication process is still loading.
@@ -16,7 +16,7 @@ const DashboardPage = () => {
   }
 
   if (!user) {
-    setTimeout(() => router.push("/pages/login"), 2000);
+    setTimeout(() => router.push("/login"), 2000);
     return <div>Not authenticated.</div>;
   }
 

@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { updateUser } from "../../redux/slices/userSlice";
 import { useAuthState } from "@/app/utils/authUtils"; // Import the useAuthState hook
 import ProfileForm from "../../components/ProfileForm";
+import { Loading } from "@/app/components/reusable/Loading";
 
 const ProfilePage = () => {
   // Get user from state and update to global redux store
@@ -17,14 +18,14 @@ const ProfilePage = () => {
   const { user, isLoading } = useAuthState();
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   if (!user) {
     return (
       <>
         <div>Not authenticated.</div>
-        {setTimeout(() => router.push("/pages/login"), 2000)}
+        {setTimeout(() => router.push("/login"), 2000)}
       </>
     );
   }

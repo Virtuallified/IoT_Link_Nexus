@@ -3,11 +3,12 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
-import { registerUser } from "../../redux/slices/userSlice";
+import { loginUser } from "../../redux/slices/userSlice";
 import { useAuthState } from "@/app/utils/authUtils";
-import RegisterForm from "../../components/RegisterForm";
+import LoginForm from "../../components/LoginForm";
+import { Loading } from "@/app/components/reusable/Loading";
 
-const RegisterPage = () => {
+const LoginPage = () => {
   const dispatch = useDispatch();
 
   // Determine the authentication state and whether the authentication process is still loading.
@@ -15,21 +16,21 @@ const RegisterPage = () => {
   const { user, isLoading } = useAuthState();
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
-  const handleRegister = (values) => {
-    dispatch(registerUser(values));
+  const handleLogin = (values) => {
+    dispatch(loginUser(values));
   };
 
   return user ? (
     "" // TODO: Fix console error: router.push("/pages/dashboard")
   ) : (
     <div>
-      <h2>Register</h2>
-      <RegisterForm onSubmit={handleRegister} />
+      <h2>Login</h2>
+      <LoginForm onSubmit={handleLogin} />
     </div>
   );
 };
 
-export default RegisterPage;
+export default LoginPage;
