@@ -12,6 +12,7 @@ import {
 } from "@radix-ui/themes";
 import { DashboardIcon } from "@radix-ui/react-icons";
 import { getRealTimeSensorData, setTurnOnOff } from "../api/realtime/route";
+import { SomethingWentWrongError } from "../libs/Exceptions";
 
 const Dashboard = () => {
   // Initial state should be null or an empty object
@@ -38,6 +39,7 @@ const Dashboard = () => {
       setSwitchState(sensorData.liveStatus);
     } catch (error) {
       console.error("Error fetching data:", error);
+      // throw new SomethingWentWrongError(`Error fetching data: ${error}`); // Throw an error
     }
   };
 
@@ -48,7 +50,8 @@ const Dashboard = () => {
         : setTurnOnOff(true) && setSwitchState(true);
       fetchData();
     } catch (error) {
-      console.error("Error updating live status:", error);
+      // console.error("Error updating live status:", error);
+      throw new SomethingWentWrongError(`Error updating live status: ${error}`); // Throw an error
     }
   };
 
