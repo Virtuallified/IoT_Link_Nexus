@@ -8,8 +8,8 @@ import { Navbar } from "../../components/reusable/Navbar";
 
 const DashboardPage = () => {
   // Determine the authentication state and whether the authentication process is still loading.
-  const router = useRouter();
   const { user, isLoading } = useAuthState();
+  const router = useRouter();
 
   if (isLoading) {
     return <div>Loading...</div>;

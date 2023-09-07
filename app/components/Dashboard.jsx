@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import io from "socket.io-client"; // Import socket.io-client
 import {
   Card,
   Container,
@@ -27,28 +28,53 @@ const Dashboard = () => {
   const user = useSelector((state) => state.user);
   const [data, setData] = useState({ initialState });
   const [switchState, setSwitchState] = useState(false);
+  const [socket, setSocket] = useState(null);
 
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const sensorData = await getRealTimeSensorData();
+        setData(sensorData);
+        setSwitchState(sensorData.liveStatus);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        // throw new SomethingWentWrongError(`Error fetching data: ${error}`); // Throw an error
+      }
+    };
+
+    const newSocket = io(process.env.SOCKET_SERVER_URL); // Get socket server URL from .env
+    setSocket(newSocket);
     fetchData();
-  }, [switchState]);
+    return () => {
+      newSocket.disconnect(); // Clean up socket connection on unmount
+    };
+  }, []);
 
-  const fetchData = () => {
-    try {
-      const sensorData = getRealTimeSensorData();
-      setData(sensorData);
-      setSwitchState(sensorData.liveStatus);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-      // throw new SomethingWentWrongError(`Error fetching data: ${error}`); // Throw an error
+  useEffect(() => {
+    if (socket) {
+      socket.on("liveStatusUpdate", (updatedData) => {
+        // Update local data when live status changes from another client
+        setData((prevData) =>
+          prevData.map((item) =>
+            item.device_id === updatedData.device_id
+              ? { ...item, liveStatus: updatedData.liveStatus }
+              : item
+          )
+        );
+      });
     }
-  };
+  }, [socket]);
 
-  const handleLiveStatusToggle = (id, currentStatus) => {
+  const handleLiveStatusToggle = (device_id, currentStatus) => {
     try {
       currentStatus
         ? setTurnOnOff(false) && setSwitchState(false)
         : setTurnOnOff(true) && setSwitchState(true);
+
       fetchData();
+
+      // Emit the updated live status to the server
+      socket.emit("updateLiveStatus", { device_id, liveStatus: currentStatus });
     } catch (error) {
       // console.error("Error updating live status:", error);
       throw new SomethingWentWrongError(`Error updating live status: ${error}`); // Throw an error
