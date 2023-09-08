@@ -4,7 +4,7 @@ const nextConfig = {
     serverActions: true,
   },
   env: {
-    SOCKET_SERVER_URL: "http://localhost:3011", // WebSocket server address
+    WS_SERVER: "http://localhost:3011", // WebSocket server address
   },
 };
 

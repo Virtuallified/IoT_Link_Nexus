@@ -17,14 +17,12 @@ const Dashboard = () => {
 
   const user = useSelector((state) => state.user);
   const [data, setData] = useState({ initialState });
-  const [switchState, setSwitchState] = useState(false);
   const [socket, setSocket] = useState(null);
 
   const fetchData = () => {
     try {
       const sensorData = getRealTimeSensorData();
       setData(sensorData);
-      setSwitchState(sensorData.liveStatus);
     } catch (error) {
       console.error("Error fetching data:", error);
       // throw new SomethingWentWrongError(`Error fetching data: ${error}`); // Throw an error
@@ -32,7 +30,7 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
-    const newSocket = io(process.env.SOCKET_SERVER_URL); // Get socket server URL from .env
+    const newSocket = io(process.env.WS_SERVER); // Get websocket server URL from .env
     setSocket(newSocket);
     fetchData();
     return () => {
@@ -44,26 +42,25 @@ const Dashboard = () => {
     if (socket) {
       socket.on("liveStatusUpdate", (updatedData) => {
         // Update local data when live status changes from another client
-        setData((prevData) =>
-          prevData.map((item) =>
-            item.device_id === updatedData.device_id
-              ? { ...item, liveStatus: updatedData.liveStatus }
-              : item
-          )
-        );
+        setData((data) => {
+          return data.device_id === updatedData.device_id
+            ? { ...data, liveStatus: updatedData.liveStatus }
+            : data;
+        });
       });
     }
   }, [socket]);
 
   const handleLiveStatusToggle = (device_id, currentStatus) => {
     try {
-      currentStatus
-        ? setTurnOnOff(false) && setSwitchState(false)
-        : setTurnOnOff(true) && setSwitchState(true);
+      currentStatus ? setTurnOnOff(false) : setTurnOnOff(true);
 
       fetchData();
       // Emit the updated live status to the server
-      socket.emit("updateLiveStatus", { device_id, liveStatus: currentStatus });
+      socket.emit("updateLiveStatus", {
+        device_id,
+        liveStatus: !currentStatus,
+      });
     } catch (error) {
       // console.error("Error updating live status:", error);
       throw new SomethingWentWrongError(`Error updating live status: ${error}`); // Throw an error
@@ -102,7 +99,7 @@ const Dashboard = () => {
                 <CardBody>
                   <p>Turn On/Off:</p>
                   <Switch
-                    isSelected={switchState}
+                    isSelected={data.liveStatus}
                     onValueChange={() =>
                       handleLiveStatusToggle(data.device_id, data.liveStatus)
                     }></Switch>
