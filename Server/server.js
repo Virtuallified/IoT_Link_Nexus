@@ -17,7 +17,8 @@ const io = socketIo(server, {
 
 // Listen for web socket connections
 io.on("connection", (socket) => {
-  console.log("WebSocket connected");
+  const clientIP = socket.handshake.address; // Get the client's IP address
+  console.log(`WS-client connected from IP: ${clientIP}`);
 
   // Listen for the 'updateLiveStatus' event
   socket.on("updateLiveStatus", (data) => {
@@ -27,7 +28,7 @@ io.on("connection", (socket) => {
 
   // Handle disconnection
   socket.on("disconnect", () => {
-    console.log("WebSocket disconnected");
+    console.log(`WS-client disconnected from IP: ${clientIP}`);
   });
 });
 

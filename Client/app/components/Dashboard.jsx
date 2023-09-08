@@ -71,13 +71,13 @@ const Dashboard = () => {
     <>
       {data && (
         <div
-          class="container mx-auto py-10"
+          className="container mx-auto py-10"
           id="dashboard"
           size="3"
           key={data.device_id}>
-          <div class="flex flex-row">
-            <div class="basis-1/2"></div>
-            <div class="basis-1/2">
+          <div className="flex flex-row">
+            <div className="basis-1/2"></div>
+            <div className="basis-1/2">
               <Card size="3" style={{ width: 200 }}>
                 <CardBody>
                   <p>Humidity: {data.humidity}</p>
@@ -85,7 +85,7 @@ const Dashboard = () => {
                 </CardBody>
               </Card>
             </div>
-            <div class="basis-1/2">
+            <div className="basis-1/2">
               <Card style={{ width: 200 }}>
                 <CardBody>
                   <p>Device ID: {data.device_id}</p>
@@ -94,7 +94,7 @@ const Dashboard = () => {
                 </CardBody>
               </Card>
             </div>
-            <div class="basis-1/2">
+            <div className="basis-1/2">
               <Card size="3" style={{ width: 200, textAlign: "center" }}>
                 <CardBody>
                   <p>Turn On/Off:</p>
@@ -106,7 +106,7 @@ const Dashboard = () => {
                 </CardBody>
               </Card>
             </div>
-            <div class="basis-1/2"></div>
+            <div className="basis-1/2"></div>
           </div>
         </div>
       )}
