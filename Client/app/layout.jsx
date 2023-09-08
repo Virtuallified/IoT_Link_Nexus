@@ -1,10 +1,7 @@
 import "./globals.css";
 import { Inter } from "next/font/google";
 import { Providers } from "./redux/provider";
-import { Theme } from "@radix-ui/themes";
-
-// UI/UX Styling
-import "@radix-ui/themes/styles.css";
+import { ThemeProvider } from "./utils/ThemeProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,7 +15,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={inter.className}>
         <Providers>
-          <Theme>{children}</Theme>
+          <ThemeProvider>{children}</ThemeProvider>
         </Providers>
       </body>
     </html>
