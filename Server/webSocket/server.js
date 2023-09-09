@@ -32,8 +32,4 @@ io.on("connection", (socket) => {
   });
 });
 
-const PORT = process.env.SERVER_PORT || 3011;
-
-server.listen(PORT, () => {
-  console.log(`Server successfully started on port: ${PORT}`);
-});
+module.exports = server;
