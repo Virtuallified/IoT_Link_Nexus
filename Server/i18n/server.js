@@ -12,7 +12,7 @@ app.use((res, req, next) => {
 
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: `${process.env.CLIENT_DOMAIN}:${process.env.CLIENT_PORT || "80"}`,
   })
 );
 

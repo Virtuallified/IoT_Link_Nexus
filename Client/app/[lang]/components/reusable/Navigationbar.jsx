@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { useSelector, useDispatch } from "react-redux";
-import { useAuthState } from "@/app/utils/authUtils";
+import { useAuthState } from "@/app/[lang]/utils/authUtils";
 import {
   Navbar,
   NavbarBrand,

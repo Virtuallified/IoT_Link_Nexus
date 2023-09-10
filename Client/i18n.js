@@ -1,29 +1,29 @@
-"use client";
-
 import i18n from "i18next";
-import { initReactI18next } from "react-i18next";
-import LanguageDetector from "i18next-browser-languagedetector";
-import HttpBackend from "i18next-http-backend"; // *** read from backend server ***
+import HttpBackend from "i18next-http-backend";
+
+// Custom logger function
+const customLogger = (level, message) => {
+  if (level === "error") {
+    console.error(`i18next ${level}: ${message}`);
+  }
+};
 
 i18n
-  .use(HttpBackend)
-  // detect user language
-  // learn more: https://github.com/i18next/i18next-browser-languageDetector
-  .use(LanguageDetector)
-  // pass the i18n instance to react-i18next.
-  .use(initReactI18next)
-  // init i18next
-  // for all options read: https://www.i18next.com/overview/configuration-options
+  .use(HttpBackend) // Use i18next-http-backend
   .init({
-    debug: true,
-    fallbackLng: "en-US",
-    supportedLngs: ["en-US", "bn"],
-    ns: ["translations"],
-    interpolation: {
-      escapeValue: false, // not needed for react as it escapes by default
+    debug: false, // Enable debugging, but only log errors using the custom logger
+    lng: "en", // Set the initial language
+    fallbackLng: "en", // Fallback language
+    // Specify additional supported languages
+    supportedLngs: ["en", "bn", "hi", "es", "fr"],
+    logger: {
+      error: customLogger,
     },
+    // Other i18next configuration options...
+
+    // Configure the backend
     backend: {
-      loadPath: `${process.env.I18N_SERVER}/locales/{{lng}}.json`,
+      loadPath: `${process.env.I18N_SERVER}/locales/{{lng}}.json`, // Remote URL for translations
     },
   });
 
