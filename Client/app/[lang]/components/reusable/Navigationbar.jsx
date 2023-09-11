@@ -32,6 +32,8 @@ export const Navigationbar = () => {
     router.push("/login");
   };
 
+  const handleNavigate = (path = "#") => router.push(path);
+
   useEffect(() => {
     const trimmedPath = pathname.replace(/^\/pages\//, "");
     // Get the element by its id
@@ -63,17 +65,28 @@ export const Navigationbar = () => {
       </NavbarContent>
       <NavbarContent className="hidden sm:flex gap-4" justify="center">
         <NavbarItem isActive>
-          <Link id="dashboard" href="/pages/dashboard">
+          <Link
+            id="dashboard"
+            className="hover:cursor-pointer"
+            onClick={() => handleNavigate("/pages/dashboard")}>
             Dashboard
           </Link>
         </NavbarItem>
         <NavbarItem>
-          <Link id="activity" href="/pages/activity" color="foreground">
+          <Link
+            id="activity"
+            class="hover:cursor-pointer"
+            onClick={() => handleNavigate("/pages/activity")}
+            color="foreground">
             Activity
           </Link>
         </NavbarItem>
         <NavbarItem>
-          <Link id="profile" href="/pages/profile" color="foreground">
+          <Link
+            id="profile"
+            class="hover:cursor-pointer"
+            onClick={() => handleNavigate("/pages/profile")}
+            color="foreground">
             Profile
           </Link>
         </NavbarItem>
@@ -116,8 +129,12 @@ export const Navigationbar = () => {
                   : "foreground"
               }
               className="w-full"
-              href="#"
-              size="lg">
+              size="lg"
+              onClick={() => {
+                item !== "Log Out"
+                  ? handleNavigate(`/pages/${item.toLowerCase()}`)
+                  : handleLogout();
+              }}>
               {item}
             </Link>
           </NavbarMenuItem>
