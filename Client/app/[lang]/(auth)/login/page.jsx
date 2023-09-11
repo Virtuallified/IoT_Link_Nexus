@@ -4,9 +4,9 @@ import React from "react";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../../redux/slices/userSlice";
-import { useAuthState } from "@/app/utils/authUtils";
+import { useAuthState } from "@/app/[lang]/utils/authUtils";
 import LoginForm from "../../components/LoginForm";
-import { Loading } from "@/app/components/reusable/Loading";
+import { Loading } from "../../components/reusable/Loading";
 
 const LoginPage = () => {
   const dispatch = useDispatch();

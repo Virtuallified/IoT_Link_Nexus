@@ -9,8 +9,7 @@ export default function Home(req) {
       <Navigationbar />
       <main className="flex min-h-screen flex-col items-center justify-between p-24">
         <div className="">
-          {/* <p className="">{t("translations:iotNexus.translation.welcome")}</p> */}
-          <p className="">{lang.iotNexus.translation.welcome}</p>
+          <p className="">{lang?.iotNexus?.translation?.welcome}</p>
         </div>
       </main>
     </>

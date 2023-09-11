@@ -2,7 +2,7 @@
 
 import React from "react";
 import { useRouter } from "next/navigation";
-import { useAuthState } from "@/app/utils/authUtils"; // Import the useAuthState hook
+import { useAuthState } from "@/app/[lang]/utils/authUtils"; // Import the useAuthState hook
 import Dashboard from "../../components/Dashboard";
 import { Navigationbar } from "../../components/reusable/Navigationbar";
 

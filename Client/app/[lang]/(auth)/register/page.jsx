@@ -4,9 +4,9 @@ import React from "react";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { registerUser } from "../../redux/slices/userSlice";
-import { useAuthState } from "@/app/utils/authUtils";
+import { useAuthState } from "@/app/[lang]/utils/authUtils";
 import RegisterForm from "../../components/RegisterForm";
-import { Loading } from "@/app/components/reusable/Loading";
+import { Loading } from "../../components/reusable/Loading";
 
 const RegisterPage = () => {
   const dispatch = useDispatch();
