@@ -15,6 +15,7 @@ import {
   NavbarMenu,
   NavbarMenuItem,
 } from "@nextui-org/react";
+import Logo from "./Logo";
 
 export const Navigationbar = () => {
   // Get user from state and update to global redux store
@@ -59,7 +60,12 @@ export const Navigationbar = () => {
           className="sm:hidden"
         />
         <NavbarBrand>
-          {/* <Logo /> */}
+          <Logo
+            src="/images/iot-logo.png" // Replace with the actual image path
+            alt="Logo"
+            width={200} // Specify the width (in pixels)
+            height={100} // Specify the height (in pixels)
+          />
           <p className="font-bold text-inherit">IoT Link Nexus</p>
         </NavbarBrand>
       </NavbarContent>

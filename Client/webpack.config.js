@@ -18,4 +18,10 @@ module.exports = {
       },
     }),
   ],
+  stats: {
+    // You can adjust these settings as needed
+    assets: false, // Disable asset information
+    modules: false, // Disable module information
+    moduleTrace: false, // Disable module trace information
+  },
 };

@@ -18,6 +18,13 @@ export default function RootLayout({ children, params }) {
   return (
     <html lang={params.lang ?? defaultLocale}>
       {/* <body className={`${inter.className} dark text-foreground bg-background`}> */}
+      <link rel="icon" href="/favicon.ico" sizes="any" />
+      <link
+        rel="apple-touch-icon"
+        href="/apple-icon?<generated>"
+        type="image/<generated>"
+        sizes="<generated>"
+      />
       <body className={inter.className}>
         <Providers>
           <ThemeProvider>{children}</ThemeProvider>
