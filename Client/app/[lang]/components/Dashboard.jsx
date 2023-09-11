@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import io from "socket.io-client"; // Import socket.io-client
-import { getRealTimeSensorData, setTurnOnOff } from "../api/realtime/route";
+import { setTurnOnOff } from "../api/realtime/route";
 import { SomethingWentWrongError } from "../libs/Exceptions";
 import { Card, CardBody, Switch } from "@nextui-org/react";
+// Import firebase realtime database functions
+import { ref, onValue } from "firebase/database";
+// Connections
+import { real_db } from "@/firebase/firebase.config";
 
 const Dashboard = () => {
   // Initial state should be null or an empty object
@@ -19,20 +23,31 @@ const Dashboard = () => {
   const [data, setData] = useState({ initialState });
   const [socket, setSocket] = useState(null);
 
-  const fetchData = () => {
-    try {
-      const sensorData = getRealTimeSensorData();
-      setData(sensorData);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-      // throw new SomethingWentWrongError(`Error fetching data: ${error}`); // Throw an error
-    }
-  };
-
   useEffect(() => {
     const newSocket = io(process.env.WS_SERVER); // Get websocket server URL from .env
     setSocket(newSocket);
-    fetchData();
+
+    // ! To make consistant connection to realtime database, needed to add 'onValue' inside useEffect
+    // * Get latest sensors data and power switch state
+    try {
+      onValue(ref(real_db, "sensor-data"), async (snapshot) => {
+        if (snapshot.exists()) {
+          let sensorData = await snapshot.val();
+          onValue(ref(real_db, "power-switch"), async (snapshot) => {
+            if (snapshot.exists()) {
+              let powerSwitch = await snapshot.val();
+              setData({
+                ...sensorData,
+                liveStatus: powerSwitch.liveStatus,
+              });
+            }
+          });
+        }
+      });
+    } catch (error) {
+      console.error("Data does not exist.", error);
+    }
+
     return () => {
       newSocket.disconnect(); // Clean up socket connection on unmount
     };
@@ -54,8 +69,6 @@ const Dashboard = () => {
   const handleLiveStatusToggle = (device_id, currentStatus) => {
     try {
       currentStatus ? setTurnOnOff(false) : setTurnOnOff(true);
-
-      fetchData();
       // Emit the updated live status to the server
       socket.emit("updateLiveStatus", {
         device_id,

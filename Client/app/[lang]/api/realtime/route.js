@@ -3,9 +3,7 @@ import { ref, set, onValue } from "firebase/database";
 // Connections
 import { real_db } from "@/firebase/firebase.config";
 
-export const dynamic = "force-dynamic";
-
-// To fetch sensor data from a collection in Firebase Realtime Database using the onValue method
+// NOT IN USE: To fetch sensor data from a collection in Firebase Realtime Database using the onValue method
 export const getRealTimeSensorData = (callback) => {
   let data;
   const dataPath = ref(real_db, "sensor-data"); // Replace 'sensor-data' with your database path
@@ -16,6 +14,7 @@ export const getRealTimeSensorData = (callback) => {
   return data;
 };
 
+// NOT IN USE: To fetch power switch state
 export const getTurnOnOff = () => {
   let data;
   const dataPath = ref(real_db, "power-switch");
