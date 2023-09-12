@@ -7,6 +7,7 @@ import { updateUser } from "../../redux/slices/userSlice";
 import { useAuthState } from "@/app/[lang]/utils/authUtils"; // Import the useAuthState hook
 import ProfileForm from "../../components/ProfileForm";
 import { Loading } from "../../components/reusable/Loading";
+import { Navigationbar } from "../../components/reusable/Navigationbar";
 
 const ProfilePage = () => {
   // Get user from state and update to global redux store
@@ -36,7 +37,7 @@ const ProfilePage = () => {
 
   return (
     <div>
-      <h2>Profile</h2>
+      <Navigationbar />
       <ProfileForm initialValues={userProfile} onSubmit={handleUpdate} />
     </div>
   );

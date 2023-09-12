@@ -7,6 +7,10 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
 } from "firebase/auth";
+import {
+  createUserRecord,
+  updateUserRecord,
+} from "../../api/firestore/user/route";
 // import bcrypt from "bcryptjs";
 
 const userSlice = createSlice({
@@ -20,8 +24,25 @@ const userSlice = createSlice({
   reducers: {
     setUser: (state, action) => {
       // Extract and store only the serializable properties from the user object
-      const { uid, displayName, email, photoURL } = action.payload;
-      return { uid, displayName, email, photoURL };
+      const {
+        uid,
+        displayName,
+        email,
+        phoneNumber,
+        photoURL,
+        isAnonymous,
+        metadata,
+      } = action.payload;
+      return {
+        uid,
+        displayName,
+        email,
+        phoneNumber,
+        photoURL,
+        isAnonymous,
+        createdAt: metadata.creationTime,
+        lastLoginAt: metadata.lastSignInTime,
+      };
     },
     clearUser: (state) => null,
   },
@@ -58,6 +79,7 @@ export const registerUser =
         password
       );
       dispatch(setUser(userCredential.user));
+      dispatch(createUser(userCredential.user));
     } catch (error) {
       console.error(error.message);
     }
@@ -67,9 +89,13 @@ export const updateUser =
   ({ uid, values }) =>
   async (dispatch) => {
     try {
-      // Update the user data in Firebase or your database
-      // You might want to customize this part based on your backend setup
-      // For example, you can use Firestore to update user data
+      updateUserRecord(uid, values)
+        .then((updatedUser) => {
+          console.log("User details updated:", updatedUser);
+        })
+        .catch((error) => {
+          console.error("Failed to update user details:", error);
+        });
 
       // Dispatch the updated user data
       dispatch(setUser(values));
@@ -77,5 +103,14 @@ export const updateUser =
       console.error(error.message);
     }
   };
+
+const createUser = (values) => async (dispatch) => {
+  try {
+    // Create the user data in Firebase firestore
+    await createUserRecord(values);
+  } catch (error) {
+    console.error(error.message);
+  }
+};
 
 export default userSlice.reducer;
