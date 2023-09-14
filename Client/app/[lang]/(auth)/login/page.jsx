@@ -7,6 +7,7 @@ import { loginUser } from "../../redux/slices/userSlice";
 import { useAuthState } from "@/app/[lang]/utils/authUtils";
 import LoginForm from "../../components/LoginForm";
 import { Loading } from "../../components/reusable/Loading";
+import { Navigationbar } from "../../components/reusable/Navigationbar";
 
 const LoginPage = () => {
   const dispatch = useDispatch();
@@ -26,10 +27,10 @@ const LoginPage = () => {
   return user && !isLoading ? (
     router.push("/pages/dashboard") // TODO: Fix console error
   ) : (
-    <div>
-      <h2>Login</h2>
+    <>
+      <Navigationbar />
       <LoginForm onSubmit={handleLogin} />
-    </div>
+    </>
   );
 };
 

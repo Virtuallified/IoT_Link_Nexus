@@ -7,6 +7,7 @@ import { registerUser } from "../../redux/slices/userSlice";
 import { useAuthState } from "@/app/[lang]/utils/authUtils";
 import RegisterForm from "../../components/RegisterForm";
 import { Loading } from "../../components/reusable/Loading";
+import { Navigationbar } from "../../components/reusable/Navigationbar";
 
 const RegisterPage = () => {
   const dispatch = useDispatch();
@@ -27,7 +28,7 @@ const RegisterPage = () => {
     router.push("/pages/dashboard") // TODO: Fix console error
   ) : (
     <div>
-      <h2>Register</h2>
+      <Navigationbar />
       <RegisterForm onSubmit={handleRegister} />
     </div>
   );

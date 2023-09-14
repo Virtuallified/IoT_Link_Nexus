@@ -2,8 +2,8 @@ import i18n from "@/i18n"; // Import your i18n configuration
 
 // Modify your dictionaries to use i18next
 const dictionaries = {
-  en: () => i18n.getResourceBundle("en", "translation"), // Load 'en' translations
-  bn: () => i18n.getResourceBundle("bn", "translation"), // Load 'bn' translations
+  en: () => i18n.getResourceBundle("en", "translation"), // Load 'English' translations
+  bn: () => i18n.getResourceBundle("bn", "translation"), // Load 'Bengali' translations
 };
 
 export const getTranslation = (lang) => {

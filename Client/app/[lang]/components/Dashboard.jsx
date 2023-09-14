@@ -23,16 +23,6 @@ const Dashboard = () => {
   const [data, setData] = useState({ initialState });
   const [socket, setSocket] = useState(null);
 
-  // const fetchData = () => {
-  //   try {
-  //     const sensorData = getRealTimeSensorData();
-  //     setData(sensorData);
-  //   } catch (error) {
-  //     console.error("Error fetching data:", error);
-  //     // throw new SomethingWentWrongError(`Error fetching data: ${error}`); // Throw an error
-  //   }
-  // };
-
   useEffect(() => {
     const newSocket = io(process.env.WS_SERVER); // Get websocket server URL from .env
     setSocket(newSocket);
@@ -90,7 +80,6 @@ const Dashboard = () => {
     try {
       currentStatus ? setTurnOnOff(false) : setTurnOnOff(true);
 
-      fetchData();
       // Emit the updated live status to the server
       socket.emit("updateLiveStatus", {
         device_id,

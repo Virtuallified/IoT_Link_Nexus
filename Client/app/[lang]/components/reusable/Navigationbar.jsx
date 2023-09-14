@@ -40,16 +40,16 @@ export const Navigationbar = () => {
     // Get the element by its id
     let element = document.getElementById(trimmedPath);
     // Check if the element exists
-    if (element) {
-      // Modify attribute to the element
-      element.removeAttribute("color");
-      element.setAttribute("aria-current", "page");
-    }
-    return () => {
-      // Modify attribute to the element
-      element.removeAttribute("aria-current");
-      element.setAttribute("color", "foreground");
-    };
+    // if (element) {
+    //   // Modify attribute to the element
+    //   element.removeAttribute("color");
+    //   element.setAttribute("aria-current", "page");
+    // }
+    // return () => {
+    //   // Modify attribute to the element
+    //   element.removeAttribute("aria-current");
+    //   element.setAttribute("color", "foreground");
+    // };
   }, []);
 
   return (
@@ -101,10 +101,14 @@ export const Navigationbar = () => {
         {!user ? (
           <>
             <NavbarItem className="hidden lg:flex">
-              <Link href="#">Login</Link>
+              <Link onClick={() => handleNavigate("/login")}>Login</Link>
             </NavbarItem>
             <NavbarItem>
-              <Button as={Link} color="primary" href="#" variant="flat">
+              <Button
+                as={Link}
+                color="primary"
+                variant="flat"
+                onClick={() => handleNavigate("/register")}>
                 Sign Up
               </Button>
             </NavbarItem>
