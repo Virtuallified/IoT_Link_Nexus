@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { onAuthStateChanged, signOut as authSignOut } from "firebase/auth";
+import {
+  onAuthStateChanged,
+  updateProfile,
+  updateEmail,
+  sendEmailVerification,
+  updatePassword,
+  deleteUser,
+  signOut as authSignOut,
+} from "firebase/auth";
 import { auth } from "@/firebase/firebase.config";
 import { clearUser } from "../redux/slices/userSlice"; // Import your Firebase configuration
 
@@ -22,6 +30,7 @@ export const useAuthState = () => {
     setLoading(false);
   };
 
+  // Signout
   const signOut = () => {
     authSignOut(auth)
       .then(() => {
@@ -35,6 +44,7 @@ export const useAuthState = () => {
       });
   };
 
+  // Track auth state
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (authUser) => {
       setLoading(true);
@@ -50,4 +60,63 @@ export const useAuthState = () => {
   }, []);
 
   return { user, isLoading, signOut };
+};
+
+// Update a user's profile
+export const updateUserProfile = async (...updatedDetails) => {
+  const { user } = useAuthState();
+  const { displayName, email, phoneNumber, photoURL } = updatedDetails;
+  try {
+    await updateProfile(user, {
+      displayName,
+      email,
+      phoneNumber,
+      photoURL,
+    }).then(() => {
+      console.log("Profile updated successfully");
+    });
+    // You can return a success message or any other data here if needed
+  } catch (error) {
+    console.error("Error updating profile:", error);
+    throw error; // You can re-throw the error to handle it elsewhere
+  }
+};
+
+// Set a user's email address
+export const updateUserEmail = async (newEmail) => {
+  try {
+    await updateEmail(user, newEmail).then(() => {
+      console.log("Email updated successfully");
+    });
+    // You can return a success message or any other data here if needed
+  } catch (error) {
+    console.error("Error updating email:", error);
+    throw error; // You can re-throw the error to handle it elsewhere
+  }
+};
+
+// Set a user's password
+export const updateUserPassword = async (newPassword) => {
+  try {
+    await updatePassword(user, newPassword).then(() => {
+      console.log("Password updated successfully");
+    });
+    // You can return a success message or any other data here if needed
+  } catch (error) {
+    console.error("Error updating password:", error);
+    throw error; // You can re-throw the error to handle it elsewhere
+  }
+};
+
+// Delete a user
+export const deleteTheUser = async (userObj) => {
+  try {
+    await deleteUser(userObj).then(() => {
+      console.log("User deleted successfully");
+    });
+    // You can return a success message or any other data here if needed
+  } catch (error) {
+    console.error("Error deleting user:", error);
+    throw error; // You can re-throw the error to handle it elsewhere
+  }
 };
