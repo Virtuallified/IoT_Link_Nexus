@@ -16,6 +16,7 @@ import {
   NavbarMenuItem,
 } from "@nextui-org/react";
 import Logo from "./Logo";
+import _ from "lodash";
 
 export const Navigationbar = () => {
   // Get user from state and update to global redux store
@@ -98,7 +99,7 @@ export const Navigationbar = () => {
         </NavbarItem>
       </NavbarContent>
       <NavbarContent justify="end">
-        {!user ? (
+        {_.isEmpty(user) ? (
           <>
             <NavbarItem className="hidden lg:flex">
               <Link onClick={() => handleNavigate("/login")}>Login</Link>

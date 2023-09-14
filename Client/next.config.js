@@ -4,6 +4,7 @@ const nextConfig = {
     serverActions: true,
   },
   env: {
+    BASE_URL: "http://localhost:3000",
     WS_SERVER: "http://localhost:3011", // WebSocket server address
     I18N_SERVER: "http://localhost:3012", // i18n server address
   },
