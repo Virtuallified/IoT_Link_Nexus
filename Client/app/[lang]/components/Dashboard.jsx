@@ -86,60 +86,61 @@ const Dashboard = () => {
     <>
       <BlurTop />
       {data && (
-        <div
-          className="container mx-auto py-10"
-          id="dashboard"
-          size="3"
-          key={data.device_id}>
-          <div className="flex flex-row">
-            <div className="basis-1/2"></div>
-            <div className="basis-1/2">
-              <Card size="3" style={{ width: 200 }}>
-                <CardBody>
-                  <p>Humidity: {data.humidity}</p>
-                  <p>Temperature: {data.temperature}</p>
-                </CardBody>
-              </Card>
+        <div id="dashboard" className="py-12" key={data.device_id}>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+              {/* Column 1 */}
+              <div className="flex flex-col justify-between">
+                <Card>
+                  <CardBody>
+                    <p>Humidity: {data.humidity}</p>
+                    <p>Temperature: {data.temperature}</p>
+                  </CardBody>
+                </Card>
+              </div>
+
+              {/* Column 2 */}
+              <div className="flex flex-col justify-between">
+                <Card>
+                  <CardBody>
+                    <p>Device ID: {data.device_id}</p>
+                    <p>Device Name: {data.device_name}</p>
+                    <p>
+                      Live Status:{" "}
+                      {data.liveStatus ? (
+                        <Chip
+                          startContent={<CheckIcon size={18} />}
+                          variant="faded"
+                          color="success">
+                          Running
+                        </Chip>
+                      ) : (
+                        <Chip
+                          startContent={<CrossIcon size={18} />}
+                          variant="faded"
+                          color="danger">
+                          Stopped
+                        </Chip>
+                      )}
+                    </p>
+                  </CardBody>
+                </Card>
+              </div>
+
+              {/* Column 3 */}
+              <div className="flex flex-col justify-between">
+                <Card>
+                  <CardBody>
+                    <p>Turn On/Off:</p>
+                    <Switch
+                      isSelected={data.liveStatus}
+                      onValueChange={() =>
+                        handleLiveStatusToggle(data.device_id, data.liveStatus)
+                      }></Switch>
+                  </CardBody>
+                </Card>
+              </div>
             </div>
-            <div className="basis-1/2">
-              <Card style={{ width: 200 }}>
-                <CardBody>
-                  <p>Device ID: {data.device_id}</p>
-                  <p>Device Name: {data.device_name}</p>
-                  <p>
-                    Live Status:{" "}
-                    {data.liveStatus ? (
-                      <Chip
-                        startContent={<CheckIcon size={18} />}
-                        variant="faded"
-                        color="success">
-                        Running
-                      </Chip>
-                    ) : (
-                      <Chip
-                        startContent={<CrossIcon size={18} />}
-                        variant="faded"
-                        color="danger">
-                        Stopped
-                      </Chip>
-                    )}
-                  </p>
-                </CardBody>
-              </Card>
-            </div>
-            <div className="basis-1/2">
-              <Card size="3" style={{ width: 200, textAlign: "center" }}>
-                <CardBody>
-                  <p>Turn On/Off:</p>
-                  <Switch
-                    isSelected={data.liveStatus}
-                    onValueChange={() =>
-                      handleLiveStatusToggle(data.device_id, data.liveStatus)
-                    }></Switch>
-                </CardBody>
-              </Card>
-            </div>
-            <div className="basis-1/2"></div>
           </div>
         </div>
       )}
