@@ -102,7 +102,11 @@ export const Navigationbar = () => {
         {_.isEmpty(user) ? (
           <>
             <NavbarItem className="hidden lg:flex">
-              <Link onClick={() => handleNavigate("/login")}>Login</Link>
+              <Link
+                onClick={() => handleNavigate("/login")}
+                className="hover:cursor-pointer">
+                Login
+              </Link>
             </NavbarItem>
             <NavbarItem>
               <Button
