@@ -3,11 +3,13 @@ import { useSelector } from "react-redux";
 import io from "socket.io-client"; // Import socket.io-client
 import { getRealTimeSensorData, setTurnOnOff } from "../api/realtime/route";
 import { SomethingWentWrongError } from "../libs/Exceptions";
-import { Card, CardBody, Switch } from "@nextui-org/react";
+import { Card, CardBody, Chip, Switch } from "@nextui-org/react";
+import { CheckIcon } from "../components/reusable/CheckIcon";
 // Import firebase realtime database functions
 import { ref, set, onValue } from "firebase/database";
 // Connections
 import { real_db } from "@/firebase/firebase.config";
+import { CrossIcon } from "./reusable/CrossIcon";
 
 const Dashboard = () => {
   // Initial state should be null or an empty object
@@ -114,7 +116,24 @@ const Dashboard = () => {
                 <CardBody>
                   <p>Device ID: {data.device_id}</p>
                   <p>Device Name: {data.device_name}</p>
-                  <p>Live Status: {data.liveStatus ? "On" : "Off"}</p>
+                  <p>
+                    Live Status:{" "}
+                    {data.liveStatus ? (
+                      <Chip
+                        startContent={<CheckIcon size={18} />}
+                        variant="faded"
+                        color="success">
+                        Running
+                      </Chip>
+                    ) : (
+                      <Chip
+                        startContent={<CrossIcon size={18} />}
+                        variant="faded"
+                        color="danger">
+                        Stopped
+                      </Chip>
+                    )}
+                  </p>
                 </CardBody>
               </Card>
             </div>
