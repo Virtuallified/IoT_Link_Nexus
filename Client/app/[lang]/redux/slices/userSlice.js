@@ -56,6 +56,8 @@ export const loginUser =
         email,
         password
       );
+      console.log(userCredential.user, ">>>userCredential.user ");
+
       dispatch(setUser(userCredential.user));
     } catch (error) {
       console.error(error.message);
