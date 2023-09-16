@@ -33,7 +33,7 @@ const ProfileForm = ({ handleSubmit, dispatch }) => {
           <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
             <div className="sm:col-span-3">
               <label
-                htmlFor="name"
+                htmlFor="displayName"
                 className="block text-sm font-medium leading-6 text-gray-900">
                 Name
               </label>
@@ -41,9 +41,9 @@ const ProfileForm = ({ handleSubmit, dispatch }) => {
                 <Field
                   component="input"
                   type="text"
-                  name="name"
-                  id="name"
-                  autoComplete="name"
+                  name="displayName"
+                  id="displayName"
+                  autoComplete="displayName"
                   placeholder={!user.displayName && "Test User"}
                   className="px-4 py-2 block w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
@@ -52,7 +52,7 @@ const ProfileForm = ({ handleSubmit, dispatch }) => {
 
             <div className="sm:col-span-3">
               <label
-                htmlFor="phone"
+                htmlFor="phoneNumber"
                 className="block text-sm font-medium leading-6 text-gray-900">
                 Mobile
               </label>
@@ -60,9 +60,9 @@ const ProfileForm = ({ handleSubmit, dispatch }) => {
                 <Field
                   component="input"
                   type="text"
-                  name="phone"
-                  id="phone"
-                  autoComplete="phone"
+                  name="phoneNumber"
+                  id="phoneNumber"
+                  autoComplete="phoneNumber"
                   placeholder={!user.phoneNumber && "98xxxxxx37"}
                   className="px-4 py-2 block w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
@@ -98,12 +98,12 @@ const ProfileForm = ({ handleSubmit, dispatch }) => {
                 <div className="text-center">
                   <div className="mt-4 flex text-sm leading-6 text-gray-600">
                     <label
-                      htmlFor="file-upload"
+                      htmlFor="photoURL"
                       className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500">
                       <span>Upload a file</span>
                       <input
-                        id="file-upload"
-                        name="file-upload"
+                        id="photoURL"
+                        name="photoURL"
                         type="file"
                         className="sr-only"
                       />

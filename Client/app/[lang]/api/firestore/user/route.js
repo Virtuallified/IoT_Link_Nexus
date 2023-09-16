@@ -14,6 +14,7 @@ import {
 } from "firebase/firestore";
 // Connections
 import { fire_db } from "@/firebase/firebase.config"; // Assuming you have set up the Firebase configuration
+import { useSelector } from "react-redux";
 
 // Function to get a user by their ID
 export const getUserById = async (docId) => {
@@ -93,7 +94,8 @@ export const createUserRecord = async (user) => {
       isAnonymous,
       metadata,
     } = user;
-    const userRecord = {
+
+    await setDoc(doc(fire_db, "users", uid), {
       uid,
       displayName,
       email,
@@ -102,20 +104,20 @@ export const createUserRecord = async (user) => {
       isAnonymous,
       createdAt: metadata.creationTime,
       lastLoginAt: metadata.lastSignInTime,
-    };
-    await setDoc(doc(fire_db, "users", uid), { userRecord });
+    });
   } catch (error) {
     throw error;
   }
 };
 
 // Function to update a user's details in Firestore
-export const updateUserRecord = async (docId, updatedData) => {
+export const updateUserRecord = async (docId, currentData, updatedData) => {
   const userRef = doc(fire_db, "users", docId); // Reference to the specific user document
+  const updatedProperties = dataSanitizer(currentData, updatedData);
 
   // Create an object with the updated data, including a timestamp
   const updatedUserData = {
-    ...updatedData,
+    ...updatedProperties,
     updatedAt: serverTimestamp(), // Add a 'updatedAt' field with the current timestamp
   };
 
@@ -125,7 +127,7 @@ export const updateUserRecord = async (docId, updatedData) => {
 
     // Optionally, you can retrieve and return the updated user data
     const updatedUserSnapshot = await getDocs(
-      query(collection(fire_db, "users"), where("id", "==", docId))
+      query(collection(fire_db, "users"), where("uid", "==", docId))
     );
     const updatedUser = updatedUserSnapshot.docs[0].data();
 
@@ -158,3 +160,20 @@ export const deleteUserRecordById = async (docId) => {
 //   .catch((error) => {
 //     console.error('Failed to delete user:', error);
 //   });
+
+const dataSanitizer = (currentData, updatedData) => {
+  const updatedProperties = {};
+
+  for (const key in updatedData) {
+    if (updatedData.hasOwnProperty(key)) {
+      // Check if the key exists in currentData and the values are different
+      if (
+        currentData[key] !== undefined &&
+        currentData[key] !== updatedData[key]
+      ) {
+        updatedProperties[key] = updatedData[key];
+      }
+    }
+  }
+  return updatedProperties;
+};

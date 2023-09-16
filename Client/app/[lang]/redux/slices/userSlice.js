@@ -56,8 +56,6 @@ export const loginUser =
         email,
         password
       );
-      console.log(userCredential.user, ">>>userCredential.user ");
-
       dispatch(setUser(userCredential.user));
     } catch (error) {
       console.error(error.message);
@@ -83,10 +81,10 @@ export const registerUser =
   };
 
 export const updateUser =
-  ({ uid, values }) =>
+  ({ uid, userProfile, values }) =>
   async (dispatch) => {
     try {
-      updateUserRecord(uid, values)
+      updateUserRecord(uid, userProfile, values)
         .then((updatedUser) => {
           console.log("User details updated:", updatedUser);
         })

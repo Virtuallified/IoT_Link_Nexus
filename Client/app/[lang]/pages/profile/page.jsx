@@ -10,12 +10,10 @@ import { Loading } from "../../components/reusable/Loading";
 import { Navigationbar } from "../../components/reusable/Navigationbar";
 
 const ProfilePage = () => {
-  // Get user from state and update to global redux store
   const dispatch = useDispatch();
-  const userProfile = useSelector((state) => state?.user);
-
-  // Determine the authentication state and whether the authentication process is still loading.
   const router = useRouter();
+  const userProfile = useSelector((state) => state?.user);
+  // Determine the authentication state and whether the authentication process is still loading.
   const { user, isLoading } = useAuthState();
 
   if (isLoading) {
@@ -32,13 +30,13 @@ const ProfilePage = () => {
   }
 
   const handleUpdate = (values) => {
-    dispatch(updateUser({ uid: userProfile.uid, values }));
+    dispatch(updateUser({ uid: userProfile.uid, userProfile, values }));
   };
 
   return (
     <div>
       <Navigationbar />
-      <ProfileForm initialValues={userProfile} onSubmit={handleUpdate} />
+      <ProfileForm onSubmit={handleUpdate} />
     </div>
   );
 };
