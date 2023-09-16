@@ -31,8 +31,9 @@ export function middleware(request) {
 export const config = {
   matcher: [
     // Skip all internal paths (_next)
-    "/((?!_next|api|favicon.ico).*)",
+    "/((?!_next|api|favicon.ico|iot-logo.png).*)",
     // Optional: only run on root (/) URL
+    // TODO: add public folder path for more assets
     // '/'
   ],
 };

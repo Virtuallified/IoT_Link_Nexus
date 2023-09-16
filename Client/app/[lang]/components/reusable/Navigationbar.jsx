@@ -62,12 +62,12 @@ export const Navigationbar = () => {
         />
         <NavbarBrand>
           <Logo
-            src="/images/iot-logo.png" // Replace with the actual image path
+            src="/iot-logo.png" // Replace with the actual image path
             alt="Logo"
-            width={200} // Specify the width (in pixels)
-            height={100} // Specify the height (in pixels)
+            width={64} // Specify the width (in pixels)
+            height={64} // Specify the height (in pixels)
           />
-          <p className="font-bold text-inherit">IoT Link Nexus</p>
+          <p className="font-bold text-inherit pl-4">IoT Link Nexus</p>
         </NavbarBrand>
       </NavbarContent>
       <NavbarContent className="hidden sm:flex gap-4" justify="center">
