@@ -14,7 +14,6 @@ import {
 } from "firebase/firestore";
 // Connections
 import { fire_db } from "@/firebase/firebase.config"; // Assuming you have set up the Firebase configuration
-import { useSelector } from "react-redux";
 
 // Function to get a user by their ID
 export const getUserById = async (docId) => {
@@ -122,7 +121,7 @@ export const updateUserRecord = async (docId, currentData, updatedData) => {
   };
 
   try {
-    // Update the document with the new data
+    // Update the document with the new data in FIRESTORE
     await updateDoc(userRef, updatedUserData);
 
     // Optionally, you can retrieve and return the updated user data
@@ -161,7 +160,7 @@ export const deleteUserRecordById = async (docId) => {
 //     console.error('Failed to delete user:', error);
 //   });
 
-const dataSanitizer = (currentData, updatedData) => {
+export const dataSanitizer = (currentData, updatedData) => {
   const updatedProperties = {};
 
   for (const key in updatedData) {

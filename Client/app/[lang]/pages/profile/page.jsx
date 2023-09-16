@@ -4,10 +4,11 @@ import React from "react";
 import { useRouter } from "next/navigation";
 import { useSelector, useDispatch } from "react-redux";
 import { updateUser } from "../../redux/slices/userSlice";
-import { useAuthState } from "@/app/[lang]/utils/authUtils"; // Import the useAuthState hook
+import { updateUserProfile, useAuthState } from "@/app/[lang]/utils/authUtils"; // Import the useAuthState hook
 import ProfileForm from "../../components/ProfileForm";
 import { Loading } from "../../components/reusable/Loading";
 import { Navigationbar } from "../../components/reusable/Navigationbar";
+import { dataSanitizer } from "../../api/firestore/user/route";
 
 const ProfilePage = () => {
   const dispatch = useDispatch();
@@ -30,6 +31,10 @@ const ProfilePage = () => {
   }
 
   const handleUpdate = (values) => {
+    // Update the document with the new data in FIRE AUTH
+    const updatedProperties = dataSanitizer(userProfile, values);
+    // TODO: updateUserProfile(updatedProperties);
+    // Update redux store and Firestore
     dispatch(updateUser({ uid: userProfile.uid, userProfile, values }));
   };
 
