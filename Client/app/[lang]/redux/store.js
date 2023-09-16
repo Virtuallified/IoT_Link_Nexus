@@ -1,13 +1,23 @@
 "use client";
 
 import { configureStore } from "@reduxjs/toolkit";
-import { persistStore, persistReducer } from "redux-persist";
+import {
+  persistStore,
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from "redux-persist";
 import storage from "redux-persist/lib/storage"; // defaults to localStorage for web
 import { default as rootSlice } from "./rootReducer";
 import logger from "redux-logger";
 
 const persistConfig = {
   key: "root",
+  version: 1,
   storage, // Can use any custom storage as needed like Firebase / Redis
 };
 
@@ -18,7 +28,13 @@ const persistedReducer = persistReducer(persistConfig, rootSlice);
 // Create the Redux store using configureStore from @reduxjs/toolkit
 export const store = configureStore({
   reducer: persistedReducer,
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        //Non-Serializable Data: should not put non-serializable values in state or actions.
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }).concat(logger),
   devTools: process.env.NODE_ENV !== "production",
 });
 // The store now has redux-thunk added and the Redux DevTools Extension is turned on
