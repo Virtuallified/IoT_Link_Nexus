@@ -21,6 +21,10 @@ const fetcher = (...args) => fetch(...args).then((res) => res.json());
 export default function ActivityPage() {
   const [page, setPage] = useState(1);
 
+  /* Mock API */
+  // Mock URL: https://run.mocky.io/v3/92db1656-715b-4e32-92ac-6d5f77ffbe27
+  // Secret delete link: https://designer.mocky.io/manage/delete/92db1656-715b-4e32-92ac-6d5f77ffbe27/GSyT5BFxW9FXSO8h0lyS4UroT17oO6fks9Nq
+  /* --------- */
   const { data, isLoading } = useSWR(
     `https://swapi.py4e.com/api/people?page=${page}`,
     fetcher,
@@ -28,6 +32,7 @@ export default function ActivityPage() {
       keepPreviousData: true,
     }
   );
+  console.log(data, ">>>data");
 
   const rowsPerPage = 10;
 

@@ -40,7 +40,7 @@ export const Navigationbar = () => {
     const trimmedPath = pathname.replace(/^\/pages\//, "");
     // Get the element by its id
     let element = document.getElementById(trimmedPath);
-    // Check if the element exists
+    // TODO: Check if the element exists, active navigation menu
     // if (element) {
     //   // Modify attribute to the element
     //   element.removeAttribute("color");
@@ -67,7 +67,11 @@ export const Navigationbar = () => {
             width={64} // Specify the width (in pixels)
             height={64} // Specify the height (in pixels)
           />
-          <p className="font-bold text-inherit pl-4">IoT Link Nexus</p>
+          <Button
+            className="bg-white hover:bg-gray-100 text-base text-gray-800 font-semibold py-2 px-4 rounded shadow"
+            onClick={() => handleNavigate("/")}>
+            <span className="">IoT Link Nexus</span>
+          </Button>
         </NavbarBrand>
       </NavbarContent>
       <NavbarContent className="hidden sm:flex gap-4" justify="center">
