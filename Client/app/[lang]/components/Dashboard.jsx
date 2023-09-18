@@ -10,12 +10,15 @@ import { BlurTop } from "./reusable/BlurBack";
 import { ref, set, onValue } from "firebase/database";
 // Connections
 import { real_db } from "@/firebase/firebase.config";
+import _ from "lodash";
+import { createSensorData } from "../api/firestore/sensor/route";
 
 const Dashboard = () => {
   // Initial state should be null or an empty object
   const initialState = {
     device_id: null,
     device_name: "",
+    ip_address: "",
     humidity: null,
     temperature: null,
     liveStatus: false,
@@ -23,6 +26,7 @@ const Dashboard = () => {
 
   const user = useSelector((state) => state.user);
   const [data, setData] = useState({ initialState });
+  const [oldData, setOldData] = useState(data);
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
@@ -67,6 +71,10 @@ const Dashboard = () => {
       });
     }
   }, [socket]);
+
+  useEffect(() => {
+    !_.isEqual(data, oldData) && createSensorData(data).then(setOldData(data));
+  }, [data]);
 
   const handleLiveStatusToggle = (device_id, currentStatus) => {
     try {
