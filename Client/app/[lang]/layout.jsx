@@ -1,6 +1,6 @@
 import "./globals.css";
 import { Inter } from "next/font/google";
-import { Providers } from "../[lang]/redux/provider";
+import { Providers } from "./redux/Provider";
 import { ThemeProvider } from "../[lang]/utils/ThemeProvider";
 import { defaultLocale } from "@/middleware";
 

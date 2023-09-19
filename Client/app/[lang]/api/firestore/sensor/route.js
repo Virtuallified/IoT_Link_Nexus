@@ -3,15 +3,21 @@ import {
   collection,
   addDoc,
   getDocs,
-  where,
-  query,
   deleteDoc,
   updateDoc,
   doc,
   onSnapshot,
+  getCountFromServer,
+  where,
+  query,
+  orderBy,
+  startAfter,
+  limit,
 } from "firebase/firestore";
+
 // Connections
-import { fire_db } from "@/firebase/firebase.config"; // Assuming you have set up the Firebase configuration
+import { fire_db } from "@/firebase/firebase.config";
+import { v4 as uuidv4 } from "uuid"; // Assuming you have set up the Firebase configuration
 
 // Execute on a collection in Firebase Firestore Database using different methods
 export const getSensorData = async () => {
@@ -28,7 +34,10 @@ export const getSensorData = async () => {
 export const createSensorData = async (newData) => {
   try {
     const sensorDataRef = collection(fire_db, "sensor-data");
-    await addDoc(sensorDataRef, newData);
+    await addDoc(sensorDataRef, {
+      ...newData,
+      _id: newData._id ? newData._id : uuidv4(),
+    });
   } catch (error) {
     throw error;
   }
@@ -62,3 +71,46 @@ export const patchSensorData = async (id, patchData) => {
 };
 
 // Add other CRUD functions as needed for your specific use case
+
+export const getActivityPaginate = async (page, previous) => {
+  const pageSize = 10; // Adjust the page size as needed
+  let startAfterDoc, lastVisible, results;
+
+  try {
+    // Count
+    const coll = collection(fire_db, "sensor-data");
+    const fullSnapshot = await getCountFromServer(coll);
+    const totalDocs = fullSnapshot.data().count;
+
+    if (page > 1) {
+      // If it's not the first page, use the lastVisible from previous page
+      startAfterDoc = previous;
+    }
+
+    const baseQuery = query(
+      collection(fire_db, "sensor-data"),
+      orderBy("updatedAt"), // You can specify your orderBy here
+      ...(startAfterDoc ? [startAfter(startAfterDoc)] : []), // Conditionally include startAfter
+      limit(pageSize)
+    );
+
+    const snapshot = await getDocs(baseQuery);
+    results = snapshot.docs.map((doc) => doc.data());
+
+    // Construct the pagination object
+    const pagination = {
+      count: totalDocs,
+      next:
+        results.length === pageSize
+          ? snapshot.docs[snapshot.docs.length - 1]
+          : null,
+      previous: page > 1 ? lastVisible : null,
+      results,
+    };
+
+    return pagination;
+  } catch (error) {
+    console.error("An error occurred while fetching data.", error);
+    throw error; // Rethrow the error for handling elsewhere
+  }
+};

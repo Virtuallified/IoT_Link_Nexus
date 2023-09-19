@@ -16,12 +16,14 @@ import { createSensorData } from "../api/firestore/sensor/route";
 const Dashboard = () => {
   // Initial state should be null or an empty object
   const initialState = {
+    _id: null,
     device_id: null,
     device_name: "",
-    ip_address: "",
+    ip_address: null,
     humidity: null,
     temperature: null,
     liveStatus: false,
+    updatedAt: null,
   };
 
   const user = useSelector((state) => state.user);
