@@ -1,18 +1,16 @@
 "use client";
 
 import React from "react";
-import { useRouter } from "next/navigation";
 import { useSelector, useDispatch } from "react-redux";
 import { updateUser } from "../../redux/slices/userSlice";
 import { updateUserProfile, useAuthState } from "@/app/[lang]/utils/authUtils"; // Import the useAuthState hook
 import ProfileForm from "../../components/ProfileForm";
-import { Loading } from "../../components/reusable/Loading";
+import { Loading, NotAuthenticated } from "../../components/reusable/Loading";
 import { Navigationbar } from "../../components/reusable/Navigationbar";
 import { dataSanitizer } from "../../api/firestore/user/route";
 
 const ProfilePage = () => {
   const dispatch = useDispatch();
-  const router = useRouter();
   const userProfile = useSelector((state) => state?.user);
   // Determine the authentication state and whether the authentication process is still loading.
   const { user, isLoading } = useAuthState();
@@ -22,12 +20,7 @@ const ProfilePage = () => {
   }
 
   if (!user) {
-    return (
-      <>
-        <div>Not authenticated.</div>
-        {setTimeout(() => router.push("/login"), 2000)}
-      </>
-    );
+    return <NotAuthenticated />;
   }
 
   const handleUpdate = (values) => {
