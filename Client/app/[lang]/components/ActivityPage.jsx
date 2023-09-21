@@ -21,16 +21,11 @@ export default function ActivityPage() {
   const [activityData, setActivityData] = useState([]);
 
   const [page, setPage] = React.useState(1);
-  const rowsPerPage = 4;
+  const rowsPerPage = 5;
 
-  const pages = Math.ceil(activityData.length / rowsPerPage);
-
-  const items = React.useMemo(() => {
-    const start = (page - 1) * rowsPerPage;
-    const end = start + rowsPerPage;
-
-    return activityData.slice(start, end);
-  }, [page, activityData]);
+  const pages = useMemo(() => {
+    return data?.count ? Math.ceil(activityData.count / rowsPerPage) : 0;
+  }, [activityData?.count, rowsPerPage]);
 
   useEffect(() => {
     // Fetch activity data asynchronously

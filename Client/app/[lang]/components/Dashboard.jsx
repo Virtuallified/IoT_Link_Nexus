@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import io from "socket.io-client"; // Import socket.io-client
-import { getRealTimeSensorData, setTurnOnOff } from "../api/realtime/route";
+import { setTurnOnOff } from "../api/realtime/route";
 import { SomethingWentWrongError } from "../libs/Exceptions";
 import { Card, CardBody, Chip, Switch } from "@nextui-org/react";
 import { CheckIcon, CrossIcon } from "./reusable/IconsLib";
