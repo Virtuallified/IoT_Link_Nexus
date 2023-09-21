@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import ActivityPage from "../../components/ActivityPage";
 import { useAuthState } from "@/app/[lang]/utils/authUtils";
