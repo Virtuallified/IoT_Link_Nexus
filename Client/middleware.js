@@ -6,15 +6,21 @@ let locales = ["en", "bn"];
 export let defaultLocale = "en";
 
 function getLocale(request) {
-  const headers = new Headers(request.headers);
-  const acceptLanguage = headers.get("accept-language");
-  if (acceptLanguage) {
-    headers.set("accept-language", acceptLanguage.replaceAll("_", "-"));
-  }
+  try {
+    const headers = new Headers(request.headers);
+    const acceptLanguage = headers.get("accept-language");
+    if (acceptLanguage) {
+      headers.set("accept-language", acceptLanguage.replaceAll("_", "-"));
+    }
 
-  const headersObject = Object.fromEntries(headers.entries());
-  const languages = new Negotiator({ headers: headersObject }).languages();
-  return match(languages, locales, defaultLocale);
+    const headersObject = Object.fromEntries(headers.entries());
+    const languages = new Negotiator({ headers: headersObject }).languages();
+    return match(languages, locales, defaultLocale);
+  } catch (error) {
+    console.error("Error while getting locale:", error);
+    // Return the default locale or handle the error as needed
+    return defaultLocale;
+  }
 }
 
 export function middleware(request) {
@@ -31,6 +37,7 @@ export function middleware(request) {
 export const config = {
   matcher: [
     // Skip all internal paths (_next)
+    "/api/:path*",
     "/((?!_next|api|favicon.ico|iot-logo.png).*)",
     // Optional: only run on root (/) URL
     // TODO: add public folder path for more assets

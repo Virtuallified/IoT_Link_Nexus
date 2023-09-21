@@ -14,11 +14,15 @@ import {
 import storage from "redux-persist/lib/storage"; // defaults to localStorage for web
 import { default as rootSlice } from "./rootReducer";
 import logger from "redux-logger";
+// import persistedRedisStorage from "../libs/persistedRedisStorage";
+// import persistedFirebaseStorage from "../libs/persistedFirebaseStorage";
 
 const persistConfig = {
   key: "root",
   version: 1,
-  storage, // Can use any custom storage as needed like Firebase / Redis
+  storage, // Use Browser App - localStorage
+  // storage: persistedRedisStorage, // Use Redis storage
+  // storage: persistedFirebaseStorage, // Use Firebase storage
 };
 
 /* Added Redux-Persist support */
