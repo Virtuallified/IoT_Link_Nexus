@@ -57,6 +57,16 @@ export const loginUser =
         password
       );
       dispatch(setUser(userCredential.user));
+
+      // Saving user cache to redis database
+      fetch("/api/redis", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "accept-language": "en",
+        },
+        body: JSON.stringify(userCredential.user),
+      });
     } catch (error) {
       console.error(error.message);
     }
