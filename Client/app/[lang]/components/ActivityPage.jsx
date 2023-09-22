@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import {
   Table,
   TableHeader,
@@ -12,6 +12,7 @@ import {
   Chip,
   Tooltip,
   Pagination,
+  Spinner,
 } from "@nextui-org/react";
 import { getActivityPaginate } from "../api/firestore/sensor/route";
 import { columns } from "../constants/activity.constant";
@@ -20,26 +21,32 @@ import { BlurTop } from "./reusable/BlurBack";
 export default function ActivityPage() {
   const [activityData, setActivityData] = useState([]);
 
-  const [page, setPage] = React.useState(1);
-  const rowsPerPage = 5;
+  const [page, setPage] = useState(0);
+  const [nextPage, setNextPage] = useState(null);
+  const rowsPerPage = 10;
 
   const pages = useMemo(() => {
-    return data?.count ? Math.ceil(activityData.count / rowsPerPage) : 0;
+    return activityData?.count
+      ? Math.ceil(activityData.count / rowsPerPage)
+      : 0;
   }, [activityData?.count, rowsPerPage]);
 
-  useEffect(() => {
-    // Fetch activity data asynchronously
-    const fetchActivityData = async () => {
-      try {
-        const response = await getActivityPaginate(1); // Wait for the promise to resolve
-        setActivityData(response.results);
-      } catch (error) {
-        console.error("Error fetching activity data:", error);
-      }
-    };
+  const loadingState = activityData?.results?.length === 0 ? "loading" : "idle";
 
+  // Fetch activity data asynchronously
+  const fetchActivityData = async () => {
+    try {
+      const response = await getActivityPaginate(page, nextPage, rowsPerPage); // Wait for the promise to resolve
+      setActivityData(response);
+      setNextPage(response.next);
+    } catch (error) {
+      console.error("Error fetching activity data:", error);
+    }
+  };
+
+  useEffect(() => {
     fetchActivityData();
-  }, []);
+  }, [page]);
 
   return (
     <>
@@ -47,17 +54,19 @@ export default function ActivityPage() {
       <Table
         aria-label="Example table with dynamic content"
         bottomContent={
-          <div className="flex w-full justify-center">
-            <Pagination
-              isCompact
-              showControls
-              showShadow
-              color="secondary"
-              page={page}
-              total={pages}
-              onChange={(page) => setPage(page)}
-            />
-          </div>
+          pages > 0 ? (
+            <div className="flex w-full justify-center">
+              <Pagination
+                isCompact
+                showControls
+                showShadow
+                color="secondary"
+                page={page}
+                total={pages}
+                onChange={(page) => setPage(page)}
+              />
+            </div>
+          ) : null
         }
         classNames={{
           wrapper: "min-h-[222px]",
@@ -67,7 +76,10 @@ export default function ActivityPage() {
             <TableColumn key={column.key}>{column.label}</TableColumn>
           )}
         </TableHeader>
-        <TableBody items={activityData}>
+        <TableBody
+          items={activityData?.results ?? []}
+          loadingContent={<Spinner />}
+          loadingState={loadingState}>
           {(item) => (
             <TableRow key={item._id}>
               {(columnKey) => (

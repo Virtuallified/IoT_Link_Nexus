@@ -70,22 +70,14 @@ export const patchSensorData = async (id, patchData) => {
   }
 };
 
-// Add other CRUD functions as needed for your specific use case
-
-export const getActivityPaginate = async (page, previous) => {
-  const pageSize = 10; // Adjust the page size as needed
-  let startAfterDoc, lastVisible, results;
+export const getActivityPaginate = async (page, startAfterDoc, pageSize) => {
+  let results;
 
   try {
-    // Count
+    // Total count
     const coll = collection(fire_db, "sensor-data");
     const fullSnapshot = await getCountFromServer(coll);
     const totalDocs = fullSnapshot.data().count;
-
-    if (page > 1) {
-      // If it's not the first page, use the lastVisible from previous page
-      startAfterDoc = previous;
-    }
 
     const baseQuery = query(
       collection(fire_db, "sensor-data"),
@@ -104,7 +96,7 @@ export const getActivityPaginate = async (page, previous) => {
         results.length === pageSize
           ? snapshot.docs[snapshot.docs.length - 1]
           : null,
-      previous: page > 1 ? lastVisible : null,
+      previous: page > 1 ? startAfterDoc : null,
       results,
     };
 
