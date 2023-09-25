@@ -28,6 +28,15 @@ export const useAuthState = () => {
   const clear = () => {
     setUser(null);
     setLoading(false);
+    // Delete data from the redis database
+    user?.uid &&
+      fetch(`/api/redis?uid=${user?.uid}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          "accept-language": "en",
+        },
+      });
   };
 
   // Signout
@@ -48,7 +57,7 @@ export const useAuthState = () => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (authUser) => {
       setLoading(true);
-      if (!authUser) {
+      if (!authUser && !user) {
         clear();
         return;
       }

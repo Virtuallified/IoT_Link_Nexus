@@ -39,3 +39,34 @@ export const POST = async (req, res) => {
     return new Response(error.message, { status: 400 }); // Return a 400 Bad Request status for invalid requests.
   }
 };
+
+export const DELETE = async (req, res) => {
+  try {
+    const params = new URLSearchParams(req.url.split("?")[1]);
+    const uid = params.get("uid");
+    // Attempt to delete the user data from Redis
+    const deletedCount = await redisClient.del(uid);
+
+    if (deletedCount === 1) {
+      // User data was deleted successfully
+      return new Response(
+        JSON.stringify({
+          success: true,
+          message: "User data deleted from Redis cache.",
+        })
+      );
+    } else {
+      // User data was not found in Redis cache
+      return new Response(
+        JSON.stringify({
+          success: false,
+          message: "User not found in Redis cache.",
+        })
+      );
+    }
+  } catch (error) {
+    // Handle any errors that may occur during the deletion
+    return new Response(error.message, { status: 400 });
+    throw error; // You can choose to handle the error differently if needed
+  }
+};
