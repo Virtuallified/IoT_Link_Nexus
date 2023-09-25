@@ -5,6 +5,7 @@ import Dashboard from "../../components/Dashboard";
 import { useAuthState } from "@/app/[lang]/utils/authUtils"; // Import the useAuthState hook
 import { Navigationbar } from "../../components/reusable/Navigationbar";
 import { Loading, NotAuthenticated } from "../../components/reusable/Loading";
+import { Footer } from "../../components/reusable/Footer";
 
 const DashboardPage = () => {
   // Determine the authentication state and whether the authentication process is still loading.
@@ -22,6 +23,7 @@ const DashboardPage = () => {
     <>
       <Navigationbar />
       <Dashboard />
+      <Footer />
     </>
   );
 };

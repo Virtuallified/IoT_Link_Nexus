@@ -5,6 +5,7 @@ import ActivityPage from "../../components/ActivityPage";
 import { useAuthState } from "@/app/[lang]/utils/authUtils";
 import { Navigationbar } from "../../components/reusable/Navigationbar";
 import { Loading, NotAuthenticated } from "../../components/reusable/Loading";
+import { Footer } from "../../components/reusable/Footer";
 
 const Activity = () => {
   // Determine the authentication state and whether the authentication process is still loading.
@@ -22,6 +23,7 @@ const Activity = () => {
     <>
       <Navigationbar />
       <ActivityPage />
+      <Footer />
     </>
   );
 };

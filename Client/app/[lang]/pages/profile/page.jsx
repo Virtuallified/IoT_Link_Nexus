@@ -7,6 +7,7 @@ import { updateUserProfile, useAuthState } from "@/app/[lang]/utils/authUtils"; 
 import ProfileForm from "../../components/ProfileForm";
 import { Loading, NotAuthenticated } from "../../components/reusable/Loading";
 import { Navigationbar } from "../../components/reusable/Navigationbar";
+import { Footer } from "../../components/reusable/Footer";
 import { dataSanitizer } from "../../api/firestore/user/route";
 
 const ProfilePage = () => {
@@ -61,14 +62,15 @@ const ProfilePage = () => {
   // const userObj = getUserFromRedisCache("4L5mzvh8qjcyAtp6bbQvEeHkSFo2"); //getUserFromRedisCache(userProfile.uid);
 
   return (
-    <div>
+    <>
       <Navigationbar />
       <ProfileForm
         uid={userProfile.uid}
         getUserFromRedisCache={getUserFromRedisCache}
         onSubmit={handleUpdate}
       />
-    </div>
+      <Footer />
+    </>
   );
 };
 

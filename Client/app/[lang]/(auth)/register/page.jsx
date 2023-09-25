@@ -8,6 +8,7 @@ import { useAuthState } from "@/app/[lang]/utils/authUtils";
 import RegisterForm from "../../components/RegisterForm";
 import { Loading } from "../../components/reusable/Loading";
 import { Navigationbar } from "../../components/reusable/Navigationbar";
+import { Footer } from "../../components/reusable/Footer";
 
 const RegisterPage = () => {
   const dispatch = useDispatch();
@@ -27,10 +28,11 @@ const RegisterPage = () => {
   return user && !isLoading ? (
     router.push("/pages/dashboard") // TODO: Fix console error
   ) : (
-    <div>
+    <>
       <Navigationbar />
       <RegisterForm onSubmit={handleRegister} />
-    </div>
+      <Footer />
+    </>
   );
 };
 

@@ -8,6 +8,7 @@ import { useAuthState } from "@/app/[lang]/utils/authUtils";
 import LoginForm from "../../components/LoginForm";
 import { Loading } from "../../components/reusable/Loading";
 import { Navigationbar } from "../../components/reusable/Navigationbar";
+import { Footer } from "../../components/reusable/Footer";
 
 const LoginPage = () => {
   const dispatch = useDispatch();
@@ -30,6 +31,7 @@ const LoginPage = () => {
     <>
       <Navigationbar />
       <LoginForm onSubmit={handleLogin} />
+      <Footer />
     </>
   );
 };
