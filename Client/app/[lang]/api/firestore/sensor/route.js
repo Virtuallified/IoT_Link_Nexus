@@ -106,3 +106,127 @@ export const getActivityPaginate = async (page, startAfterDoc, pageSize) => {
     throw error; // Rethrow the error for handling elsewhere
   }
 };
+
+export const getSensorChartData = async () => {
+  try {
+    const sensorDataRef = collection(fire_db, "sensor-data");
+    const snapshot = await getDocs(sensorDataRef);
+    const data = snapshot.docs.map((doc) => {
+      const docData = doc.data();
+      return {
+        id: doc.id,
+        _id: docData._id,
+        humidity: docData.humidity,
+        temperature: docData.temperature,
+        updatedAt: formatMonth(docData.updatedAt),
+      };
+    });
+
+    // Initialize structuredData object
+    const structuredData = {
+      humidity: [],
+      temperature: [],
+      updatedAt: [],
+    };
+
+    // Populate structuredData from data
+    data.forEach((item) => {
+      structuredData.humidity.push(item.humidity);
+      structuredData.temperature.push(item.temperature);
+      structuredData.updatedAt.push(item.updatedAt);
+    });
+
+    // Get a list of unique months from updatedAt
+    const uniqueMonths = [...new Set(structuredData.updatedAt)];
+
+    // Calculate average values in an Object for each unique month
+    // const avgStructuredData = uniqueMonths
+    //   .map((month) => calculateAverageByMonth(structuredData, month))
+    //   .filter((averageData) => averageData !== null)
+    //   .sort((a, b) => a.order - b.order); // Sort by the stored order of months
+
+    // Initialize avgStructuredData as an empty object
+    const avgStructuredData = {};
+
+    // Calculate average values in an Array for each unique month
+    uniqueMonths
+      .sort(
+        (a, b) =>
+          new Date(Date.parse(`01 ${a} 2000`)) -
+          new Date(Date.parse(`01 ${b} 2000`))
+      ) // Sort months
+      .forEach((month) => {
+        const averageData = calculateAverageByMonth(structuredData, month);
+        if (averageData !== null) {
+          avgStructuredData.avgHumidity = avgStructuredData.avgHumidity || [];
+          avgStructuredData.avgTemperature =
+            avgStructuredData.avgTemperature || [];
+          avgStructuredData.month = avgStructuredData.month || [];
+          avgStructuredData.avgHumidity.push(averageData.avgHumidity);
+          avgStructuredData.avgTemperature.push(averageData.avgTemperature);
+          avgStructuredData.month.push(month);
+        }
+      });
+
+    return avgStructuredData;
+  } catch (error) {
+    throw error;
+  }
+};
+
+// Function to format a date to display only the month
+const formatMonth = (dateString) => {
+  const options = { month: "short" }; //Use 'long' for full month name
+  return new Date(dateString).toLocaleDateString(undefined, options);
+};
+
+// Function to calculate average values for specific month from humidity and temperature arrays
+const calculateAverageByMonth = (data, month) => {
+  // Define the order of months
+  const monthOrder = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+
+  const humidityValues = data.humidity.map((value, index) =>
+    data.updatedAt[index] === month ? value : null
+  );
+  const temperatureValues = data.temperature.map((value, index) =>
+    data.updatedAt[index] === month ? value : null
+  );
+
+  // Filter out null values
+  const filteredHumidity = humidityValues.filter((value) => value !== null);
+  const filteredTemperature = temperatureValues.filter(
+    (value) => value !== null
+  );
+
+  if (filteredHumidity.length === 0 || filteredTemperature.length === 0) {
+    return null; // Return null if no data for the specified month
+  }
+
+  const avgHumidity = Math.ceil(
+    filteredHumidity.reduce((acc, value) => acc + value, 0) /
+      filteredHumidity.length
+  );
+  const avgTemperature = Math.ceil(
+    filteredTemperature.reduce((acc, value) => acc + value, 0) /
+      filteredTemperature.length
+  );
+
+  return {
+    month,
+    avgHumidity,
+    avgTemperature,
+  };
+};
