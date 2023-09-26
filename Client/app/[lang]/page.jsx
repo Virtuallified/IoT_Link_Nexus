@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { BlurBottom, BlurTop } from "./components/reusable/BlurBack";
 import { Navigationbar } from "./components/reusable/Navigationbar";
-import { Footer } from "../../components/reusable/Footer";
+import { Footer } from "./components/reusable/Footer";
 import { getTranslation } from "./utils/translateUtils";
 
 export default function Home(req) {

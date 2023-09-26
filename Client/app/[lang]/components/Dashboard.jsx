@@ -12,6 +12,9 @@ import { ref, set, onValue } from "firebase/database";
 import { real_db } from "@/firebase/firebase.config";
 import _ from "lodash";
 import { createSensorData } from "../api/firestore/sensor/route";
+import { Chart1 } from "./reusable/Chart1";
+import { Chart2 } from "./reusable/Chart2";
+import { Chart3 } from "./reusable/Chart3";
 
 const Dashboard = () => {
   // Initial state should be null or an empty object
@@ -154,6 +157,30 @@ const Dashboard = () => {
           </div>
         </div>
       )}
+      <div id="dashboard" className="py-12" key={data.device_id}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+            {/* Column 1 */}
+            <div className="flex flex-col justify-between">
+              <Card>
+                <Chart1 />
+              </Card>
+            </div>
+            {/* Column 2 */}
+            <div className="flex flex-col justify-between">
+              <Card>
+                <Chart2 />
+              </Card>
+            </div>
+            {/* Column 3 */}
+            <div className="flex flex-col justify-between">
+              <Card>
+                <Chart3 />
+              </Card>
+            </div>
+          </div>
+        </div>
+      </div>
     </>
   );
 };
