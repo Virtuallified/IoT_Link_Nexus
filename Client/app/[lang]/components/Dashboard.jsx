@@ -23,6 +23,8 @@ const Dashboard = () => {
     device_id: null,
     device_name: "",
     ip_address: null,
+    mac_address: null,
+    firmware_version: null,
     humidity: null,
     temperature: null,
     liveStatus: false,
@@ -106,19 +108,15 @@ const Dashboard = () => {
               <div className="flex flex-col justify-between">
                 <Card>
                   <CardBody>
-                    <p>Humidity: {data.humidity}</p>
-                    <p>Temperature: {data.temperature}</p>
-                  </CardBody>
-                </Card>
-              </div>
-
-              {/* Column 2 */}
-              <div className="flex flex-col justify-between">
-                <Card>
-                  <CardBody>
-                    <p>Device ID: {data.device_id}</p>
-                    <p>Device Name: {data.device_name}</p>
-                    <p>IP Address: {data.ip_address}</p>
+                    <p>
+                      Humidity:{" "}
+                      <span className="font-semibold">{data.humidity}</span>
+                    </p>
+                    <p>
+                      Temperature:{" "}
+                      <span className="font-semibold">{data.temperature}</span>
+                    </p>
+                    <hr className="h-px my-2 bg-gray-200 border-0 dark:bg-gray-700" />
                     <p>
                       Live Status:{" "}
                       {data.liveStatus ? (
@@ -141,16 +139,53 @@ const Dashboard = () => {
                 </Card>
               </div>
 
+              {/* Column 2 */}
+              <div className="flex flex-col justify-between">
+                <Card>
+                  <CardBody>
+                    <p>
+                      Device ID:{" "}
+                      <span className="font-semibold">{data.device_id}</span>
+                    </p>
+                    <p>
+                      Device Name:{" "}
+                      <span className="font-semibold">{data.device_name}</span>
+                    </p>
+                    <p>
+                      IP Address:{" "}
+                      <span className="font-semibold">{data.ip_address}</span>
+                    </p>
+                    <p>
+                      MAC Address:{" "}
+                      <span className="font-semibold">{data.mac_address}</span>
+                    </p>
+                    <p>
+                      Firmware version:{" "}
+                      <span className="font-semibold">
+                        {data.firmware_version}
+                      </span>
+                    </p>
+                  </CardBody>
+                </Card>
+              </div>
+
               {/* Column 3 */}
               <div className="flex flex-col justify-between">
                 <Card>
                   <CardBody>
-                    <p>Turn On/Off:</p>
-                    <Switch
-                      isSelected={data.liveStatus}
-                      onValueChange={() =>
-                        handleLiveStatusToggle(data.device_id, data.liveStatus)
-                      }></Switch>
+                    <div className="flex space-x-4">
+                      <span>Turn On/Off:</span>
+                      <div>
+                        <Switch
+                          isSelected={data.liveStatus}
+                          onValueChange={() =>
+                            handleLiveStatusToggle(
+                              data.device_id,
+                              data.liveStatus
+                            )
+                          }></Switch>
+                      </div>
+                    </div>
                   </CardBody>
                 </Card>
               </div>

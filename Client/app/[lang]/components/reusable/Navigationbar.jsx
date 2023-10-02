@@ -5,6 +5,7 @@ import { useRouter, usePathname } from "next/navigation";
 import { useSelector, useDispatch } from "react-redux";
 import { useAuthState } from "@/app/[lang]/utils/authUtils";
 import {
+  Avatar,
   Navbar,
   NavbarBrand,
   NavbarContent,
@@ -124,6 +125,11 @@ export const Navigationbar = () => {
           </>
         ) : (
           <>
+            <Avatar
+              isBordered
+              color="default"
+              src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
+            />
             <NavbarItem>
               <Button
                 as={Link}
