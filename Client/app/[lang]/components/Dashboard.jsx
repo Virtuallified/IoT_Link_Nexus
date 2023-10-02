@@ -176,7 +176,7 @@ const Dashboard = () => {
             {/* Column 3 */}
             <div className="flex flex-col justify-between">
               <Card>
-                <Gauge />
+                <Gauge temperature={data.temperature} />
               </Card>
             </div>
           </div>

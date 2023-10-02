@@ -5,10 +5,12 @@ import * as am5radar from "@amcharts/amcharts5/radar";
 import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
 
 export class Gauge extends Component {
+  constructor(props) {
+    super(props);
+  }
+
   componentDidMount() {
     const root = am5.Root.new("chartdiv");
-
-    // ... chart code goes here ...
 
     // Set themes
     root.setThemes([am5themes_Animated.new(root)]);
@@ -23,7 +25,7 @@ export class Gauge extends Component {
       })
     );
 
-    chart.getNumberFormatter().set("numberFormat", "#'%'");
+    chart.getNumberFormatter().set("numberFormat", "#'°c'");
 
     // Create axis and its renderer
     let axisRenderer = am5radar.AxisRendererCircular.new(root, {
@@ -36,6 +38,7 @@ export class Gauge extends Component {
       strokeOpacity: 0.8,
     });
 
+    // total radius
     let xAxis = chart.xAxes.push(
       am5xy.ValueAxis.new(root, {
         maxDeviation: 0,
@@ -47,7 +50,6 @@ export class Gauge extends Component {
     );
 
     // Add clock hand
-    // https://www.amcharts.com/docs/v5/charts/radar-chart/gauge-charts/#Clock_hands
     let axisDataItem = xAxis.makeDataItem({});
 
     let clockHand = am5radar.ClockHand.new(root, {
@@ -65,10 +67,11 @@ export class Gauge extends Component {
       strokeWidth: 1,
       strokeDasharray: [2, 2],
     });
+
     clockHand.hand.setAll({
       fillOpacity: 0,
       strokeOpacity: 0.5,
-      stroke: am5.color(0x000000),
+      stroke: am5.color(0xff0000),
       strokeWidth: 0.5,
     });
 
@@ -81,45 +84,22 @@ export class Gauge extends Component {
 
     xAxis.createAxisRange(axisDataItem);
 
+    // center digit location adjustment
     let label = chart.radarContainer.children.push(
       am5.Label.new(root, {
         centerX: am5.percent(50),
         textAlign: "center",
         centerY: am5.percent(50),
-        fontSize: "1.5em",
+        fontSize: "1.2em",
       })
     );
 
-    axisDataItem.set("value", 50);
+    // actual gauge reading value
+    axisDataItem.set("value", 20);
     bullet.get("sprite").on("rotation", function () {
       let value = axisDataItem.get("value");
-      label.set("text", Math.round(value).toString() + "%");
+      label.set("text", Math.round(value).toString() + "°c");
     });
-
-    setInterval(function () {
-      let value = Math.round(Math.random() * 100);
-
-      axisDataItem.animate({
-        key: "value",
-        to: value,
-        duration: 500,
-        easing: am5.ease.out(am5.ease.cubic),
-      });
-
-      axisRange0.animate({
-        key: "endValue",
-        to: value,
-        duration: 500,
-        easing: am5.ease.out(am5.ease.cubic),
-      });
-
-      axisRange1.animate({
-        key: "value",
-        to: value,
-        duration: 500,
-        easing: am5.ease.out(am5.ease.cubic),
-      });
-    }, 2000);
 
     chart.bulletsContainer.set("mask", undefined);
 
@@ -159,10 +139,41 @@ export class Gauge extends Component {
       forceHidden: true,
     });
 
+    this.setState({ axisDataItem, axisRange0, axisRange1 });
+
     // Make stuff animate on load
     chart.appear(1000, 100);
 
     this.root = root;
+  }
+
+  componentDidUpdate() {
+    const { temperature } = this.props;
+    const { axisDataItem, axisRange0, axisRange1 } = this.state;
+
+    // gauge value change on current update
+    axisDataItem.animate({
+      key: "value",
+      to: temperature,
+      duration: 500,
+      easing: am5.ease.out(am5.ease.cubic),
+    });
+
+    // left axis
+    axisRange0.animate({
+      key: "endValue",
+      to: temperature,
+      duration: 500,
+      easing: am5.ease.out(am5.ease.cubic),
+    });
+
+    // right axis
+    axisRange1.animate({
+      key: "value",
+      to: temperature,
+      duration: 500,
+      easing: am5.ease.out(am5.ease.cubic),
+    });
   }
 
   componentWillUnmount() {
