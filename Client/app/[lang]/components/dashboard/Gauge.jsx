@@ -4,18 +4,16 @@ import * as am5xy from "@amcharts/amcharts5/xy";
 import * as am5radar from "@amcharts/amcharts5/radar";
 import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
 
-export class Chart3 extends Component {
+export class Gauge extends Component {
   componentDidMount() {
     const root = am5.Root.new("chartdiv");
 
     // ... chart code goes here ...
 
     // Set themes
-    // https://www.amcharts.com/docs/v5/concepts/themes/
     root.setThemes([am5themes_Animated.new(root)]);
 
     // Create chart
-    // https://www.amcharts.com/docs/v5/charts/radar-chart/
     let chart = root.container.children.push(
       am5radar.RadarChart.new(root, {
         panX: false,
@@ -28,7 +26,6 @@ export class Chart3 extends Component {
     chart.getNumberFormatter().set("numberFormat", "#'%'");
 
     // Create axis and its renderer
-    // https://www.amcharts.com/docs/v5/charts/radar-chart/gauge-charts/#Axes
     let axisRenderer = am5radar.AxisRendererCircular.new(root, {
       innerRadius: -40,
     });
@@ -175,6 +172,10 @@ export class Chart3 extends Component {
   }
 
   render() {
-    return <div id="chartdiv" style={{ width: "100%", height: "270px" }}></div>;
+    return (
+      <div
+        id="chartdiv"
+        style={{ width: "100%", height: "270px", marginTop: "-8%" }}></div>
+    );
   }
 }
