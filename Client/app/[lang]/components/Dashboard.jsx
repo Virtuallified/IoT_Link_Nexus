@@ -79,9 +79,9 @@ const Dashboard = () => {
     }
   }, [socket]);
 
-  // useEffect(() => {
-  //   !_.isEqual(data, oldData) && createSensorData(data).then(setOldData(data));
-  // }, [data]);
+  useEffect(() => {
+    !_.isEqual(data, oldData) && createSensorData(data).then(setOldData(data));
+  }, [data]);
 
   const handleLiveStatusToggle = (device_id, currentStatus) => {
     try {
