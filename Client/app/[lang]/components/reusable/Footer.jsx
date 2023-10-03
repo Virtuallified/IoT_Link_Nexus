@@ -1,56 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { Toaster } from "./Toaster";
+import React from "react";
 
-{
-  // TODO: fix footer styling
-}
 export const Footer = () => {
-  const [webSocketError, setWebSocketError] = useState(null);
-  let wsServer;
-  if (process.env.WS_SERVER.startsWith("http://")) {
-    // Replace 'http://' with 'ws://'
-    wsServer = process.env.WS_SERVER.replace("http://", "ws://");
-  } else if (process.env.WS_SERVER.startsWith("https://")) {
-    // Replace 'https://' with 'wss://'
-    wsServer = process.env.WS_SERVER.replace("https://", "wss://");
-  } else {
-    // If the string doesn't start with 'http://' or 'https://',
-    console.error("Invalid WebSocket server URL");
-  }
-
-  useEffect(() => {
-    // Create a WebSocket instance
-    const webSocket = new WebSocket(wsServer);
-
-    // Add an error event listener to the WebSocket
-    const handleWebSocketError = (event) => {
-      // Update the component's state to reflect the error
-      setWebSocketError({
-        isTrusted: event.isTrusted,
-        url: event.target.url,
-        message: "WebSocket not connected",
-        type: event.type,
-        timeStamp: event.timeStamp,
-      });
-    };
-
-    webSocket.addEventListener("error", handleWebSocketError);
-
-    // Clean up the WebSocket event listener when the component unmounts
-    return () => {
-      webSocket.removeEventListener("error", handleWebSocketError);
-    };
-  }, []); // Empty dependency array to run the effect once on mount
-
   return (
     <div className="max-w-2xl mx-auto">
-      {webSocketError && (
-        <Toaster
-          title={webSocketError.message}
-          description={webSocketError.url}
-          type={webSocketError.type}
-        />
-      )}
       <footer className="p-4 bg-white sm:p-6 dark:bg-gray-800">
         <h4 className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8"></h4>
         <div className="sm:flex sm:items-center sm:justify-between">

@@ -6,6 +6,7 @@ import { useAuthState } from "@/app/[lang]/utils/authUtils"; // Import the useAu
 import { Navigationbar } from "../../components/reusable/Navigationbar";
 import { Loading, NotAuthenticated } from "../../components/reusable/Loading";
 import { Footer } from "../../components/reusable/Footer";
+import { Toaster } from "../../components/reusable/Toaster";
 
 const DashboardPage = () => {
   // Determine the authentication state and whether the authentication process is still loading.
@@ -23,6 +24,7 @@ const DashboardPage = () => {
     <>
       <Navigationbar />
       <Dashboard />
+      <Toaster />
       <Footer />
     </>
   );

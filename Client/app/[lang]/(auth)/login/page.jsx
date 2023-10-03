@@ -9,6 +9,7 @@ import LoginForm from "../../components/LoginForm";
 import { Loading } from "../../components/reusable/Loading";
 import { Navigationbar } from "../../components/reusable/Navigationbar";
 import { Footer } from "../../components/reusable/Footer";
+import { showToast } from "../../redux/slices/toastSlice";
 
 const LoginPage = () => {
   const dispatch = useDispatch();
@@ -23,6 +24,13 @@ const LoginPage = () => {
 
   const handleLogin = (values) => {
     dispatch(loginUser(values));
+    dispatch(
+      showToast({
+        type: "success",
+        title: "Successful",
+        message: "Login",
+      })
+    );
   };
 
   return user && !isLoading ? (

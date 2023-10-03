@@ -1,6 +1,8 @@
 import * as React from "react";
 import * as Toast from "@radix-ui/react-toast";
 import { Chip } from "@nextui-org/react";
+import { useDispatch, useSelector } from "react-redux";
+import { hideToast } from "../../redux/slices/toastSlice";
 
 function prettyDate(date) {
   return new Intl.DateTimeFormat("en-US", {
@@ -9,14 +11,19 @@ function prettyDate(date) {
   }).format(date);
 }
 
-export const Toaster = (props) => {
-  const { title, description, type = "default" } = props;
-  const [open, setOpen] = React.useState(title ? true : false);
+export const Toaster = () => {
+  const dispatch = useDispatch();
+  const toast = useSelector((state) => state.toast);
+  const [open, setOpen] = React.useState(toast?.show);
   const eventDateRef = React.useRef(new Date());
   const timerRef = React.useRef(0);
 
   React.useEffect(() => {
-    return () => clearTimeout(timerRef.current);
+    return () => {
+      // Hide the toast message
+      clearTimeout(timerRef.current);
+      dispatch(hideToast());
+    };
   }, []);
 
   return (
@@ -27,11 +34,13 @@ export const Toaster = (props) => {
         onOpenChange={setOpen}>
         <Toast.Title className="[grid-area:_title] mb-[5px] font-medium text-slate12 text-[15px]">
           <Chip
-            color={type == "error" ? "danger" : `${type}`}
-            variant="flat">{`${title}`}</Chip>
+            color={toast?.type === "error" ? "danger" : `${toast?.type}`}
+            variant="flat">
+            {toast?.title && `${toast?.title}`}
+          </Chip>
         </Toast.Title>
         <Toast.Description className="text-sm">
-          <p>{`${description}`}</p>
+          <p>{toast?.message && `${toast?.message}`}</p>
           <time
             className="[grid-area:_description] m-0 text-slate11 text-[13px] leading-[1.3]"
             dateTime={eventDateRef.current.toISOString()}>
