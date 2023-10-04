@@ -60,8 +60,8 @@ The project is divided into the following components and utilities:
    `npm install`
 
 4. Create a `.env.local` file in the root directory and add your Firebase configuration:
-   `   NEXT_PUBLIC_APP_SECRET_KET=your-secret-key
-NEXT_PUBLIC_REDIS_URL=your-redis-connection-url`
+   `NEXT_PUBLIC_APP_SECRET_KET=your-secret-key`
+   `NEXT_PUBLIC_REDIS_URL=your-redis-connection-url`
 
 5. Run the Next.js app (Client):
    `npm run dev`
