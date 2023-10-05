@@ -8,7 +8,7 @@ import { Loading, NotAuthenticated } from "../../components/reusable/Loading";
 import { Footer } from "../../components/reusable/Footer";
 import { Toaster } from "../../components/reusable/Toaster";
 
-const DashboardPage = () => {
+const DashboardPage = (req) => {
   // Determine the authentication state and whether the authentication process is still loading.
   const { user, isLoading } = useAuthState();
 
@@ -23,7 +23,7 @@ const DashboardPage = () => {
   return (
     <>
       <Navigationbar />
-      <Dashboard />
+      <Dashboard lang={req.params.lang} />
       <Toaster />
       <Footer />
     </>

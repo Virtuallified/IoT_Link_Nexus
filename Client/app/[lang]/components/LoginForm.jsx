@@ -2,6 +2,7 @@ import React from "react";
 import { Field, reduxForm } from "redux-form";
 import { useRouter } from "next/navigation";
 import { BlurTop } from "./reusable/BlurBack";
+import { getTranslation } from "../utils/translateUtils";
 
 /* Validation */
 const required = (value) => (value ? undefined : "This field is required");
@@ -10,9 +11,10 @@ const emailValidator = (value) =>
     ? undefined
     : "Invalid email address";
 
-const LoginForm = ({ handleSubmit }) => {
+const LoginForm = ({ handleSubmit, ...props }) => {
   const router = useRouter();
   const handleNavigate = (path = "#") => router.push(path);
+  const lang = getTranslation(props.lang);
 
   return (
     <>
@@ -33,7 +35,7 @@ const LoginForm = ({ handleSubmit }) => {
             alt="IoT Link Nexus"
           />
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-            Log in to your account
+            {lang?.iotNexus?.login?.title}
           </h2>
         </div>
 
@@ -70,7 +72,7 @@ const LoginForm = ({ handleSubmit }) => {
                   <a
                     href="#"
                     className="font-semibold text-indigo-600 hover:text-indigo-500">
-                    Forgot password?
+                    {lang?.iotNexus?.login?.forgot}
                   </a>
                 </div>
               </div>
@@ -92,13 +94,13 @@ const LoginForm = ({ handleSubmit }) => {
               <button
                 type="submit"
                 className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                Login
+                {lang?.iotNexus?.login?.button}
               </button>
             </div>
           </form>
 
           <p className="mt-10 text-center text-sm text-gray-500">
-            Not a member?{" "}
+            {lang?.iotNexus?.login?.not_member}{" "}
             <a
               onClick={() => handleNavigate("/register")}
               className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500 hover:cursor-pointer">

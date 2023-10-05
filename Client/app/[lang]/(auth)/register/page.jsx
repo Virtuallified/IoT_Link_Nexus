@@ -10,7 +10,7 @@ import { Loading } from "../../components/reusable/Loading";
 import { Navigationbar } from "../../components/reusable/Navigationbar";
 import { Footer } from "../../components/reusable/Footer";
 
-const RegisterPage = () => {
+const RegisterPage = (req) => {
   const dispatch = useDispatch();
 
   // Determine the authentication state and whether the authentication process is still loading.
@@ -30,7 +30,7 @@ const RegisterPage = () => {
   ) : (
     <>
       <Navigationbar />
-      <RegisterForm onSubmit={handleRegister} />
+      <RegisterForm onSubmit={handleRegister} lang={req.params.lang} />
       <Footer />
     </>
   );

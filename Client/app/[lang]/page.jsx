@@ -26,26 +26,22 @@ export default function Home(req) {
           </div>
           <div className="text-center">
             <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
-              {lang?.iotNexus?.translation?.welcome}
+              {lang?.iotNexus?.home?.welcome?.message}
             </h1>
             <p className="mt-6 text-lg leading-8 text-gray-600">
-              The IoT Link Nexus project is a web application built using
-              Next.js and Node.js, enabling users to monitor and control IoT
-              devices through Firebase Realtime/Firestore. The project includes
-              features such as user authentication, real-time data display,
-              error logging, and the ability to capture and download snapshots
-              of the dashboard.
+              {lang?.iotNexus?.home?.welcome?.description}
             </p>
             <div className="mt-10 flex items-center justify-center gap-x-6">
               <Link
                 href="/pages/dashboard"
                 className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                Get started
+                {lang?.iotNexus?.home?.button?.start}
               </Link>
               <Link
                 href="https://github.com/Virtuallified/IoT_Link_Nexus"
                 className="text-sm font-semibold leading-6 text-gray-900">
-                Learn more <span aria-hidden="true">→</span>
+                {lang?.iotNexus?.home?.button?.more}{" "}
+                <span aria-hidden="true">→</span>
               </Link>
             </div>
           </div>

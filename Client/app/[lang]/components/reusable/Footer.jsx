@@ -54,7 +54,7 @@ export const Footer = () => {
               </svg>
             </a>
             <a
-              href="#"
+              href="https://github.com/Virtuallified/IoT_Link_Nexus.git"
               className="text-gray-500 hover:text-gray-900 dark:hover:text-white">
               <svg
                 className="w-5 h-5"

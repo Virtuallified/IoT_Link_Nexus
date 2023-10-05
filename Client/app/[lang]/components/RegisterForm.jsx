@@ -4,6 +4,7 @@ import React from "react";
 import { Field, reduxForm } from "redux-form";
 import { useRouter } from "next/navigation";
 import { BlurTop } from "./reusable/BlurBack";
+import { getTranslation } from "../utils/translateUtils";
 
 /* Validation */
 const required = (value) => (value ? undefined : "Required");
@@ -14,9 +15,10 @@ const emailValidator = (value) =>
 const minLength8 = (value) =>
   value && value.length < 8 ? "Must be at least 8 characters" : undefined;
 
-const RegisterForm = ({ handleSubmit }) => {
+const RegisterForm = ({ handleSubmit, ...props }) => {
   const router = useRouter();
   const handleNavigate = (path = "#") => router.push(path);
+  const lang = getTranslation(props.lang);
 
   return (
     <>
@@ -29,7 +31,7 @@ const RegisterForm = ({ handleSubmit }) => {
             alt="IoT Link Nexus"
           />
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-            Register your account
+            {lang?.iotNexus?.register?.title}
           </h2>
         </div>
 
@@ -62,13 +64,6 @@ const RegisterForm = ({ handleSubmit }) => {
                   className="block text-sm font-medium leading-6 text-gray-900">
                   Password
                 </label>
-                <div className="text-sm">
-                  <a
-                    href="#"
-                    className="font-semibold text-indigo-600 hover:text-indigo-500">
-                    Forgot password?
-                  </a>
-                </div>
               </div>
               <div className="mt-2">
                 <Field
@@ -88,13 +83,13 @@ const RegisterForm = ({ handleSubmit }) => {
               <button
                 type="submit"
                 className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                Register
+                {lang?.iotNexus?.register?.button}
               </button>
             </div>
           </form>
 
           <p className="mt-10 text-center text-sm text-gray-500">
-            Already a member?{" "}
+            {lang?.iotNexus?.register?.member}{" "}
             <a
               onClick={() => handleNavigate("/login")}
               className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500 hover:cursor-pointer">

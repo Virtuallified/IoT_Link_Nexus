@@ -11,7 +11,7 @@ import { Navigationbar } from "../../components/reusable/Navigationbar";
 import { Footer } from "../../components/reusable/Footer";
 import { showToast } from "../../redux/slices/toastSlice";
 
-const LoginPage = () => {
+const LoginPage = (req) => {
   const dispatch = useDispatch();
 
   // Determine the authentication state and whether the authentication process is still loading.
@@ -38,7 +38,7 @@ const LoginPage = () => {
   ) : (
     <>
       <Navigationbar />
-      <LoginForm onSubmit={handleLogin} />
+      <LoginForm onSubmit={handleLogin} lang={req.params.lang} />
       <Footer />
     </>
   );

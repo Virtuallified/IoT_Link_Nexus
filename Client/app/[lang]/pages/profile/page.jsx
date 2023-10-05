@@ -10,7 +10,7 @@ import { Navigationbar } from "../../components/reusable/Navigationbar";
 import { Footer } from "../../components/reusable/Footer";
 import { dataSanitizer } from "../../api/firestore/user/route";
 
-const ProfilePage = () => {
+const ProfilePage = (req) => {
   const dispatch = useDispatch();
   const userProfile = useSelector((state) => state?.user);
   // Determine the authentication state and whether the authentication process is still loading.
@@ -68,6 +68,7 @@ const ProfilePage = () => {
         uid={userProfile.uid}
         getUserFromRedisCache={getUserFromRedisCache}
         onSubmit={handleUpdate}
+        lang={req.params.lang}
       />
       <Footer />
     </>

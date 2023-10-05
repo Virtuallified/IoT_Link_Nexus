@@ -15,8 +15,9 @@ import { createSensorData } from "../api/firestore/sensor/route";
 import { BarChart } from "./dashboard/BarChart";
 import { LineChart } from "./dashboard/LineChart";
 import { Gauge } from "./dashboard/Gauge";
+import { getTranslation } from "../utils/translateUtils";
 
-const Dashboard = () => {
+const Dashboard = (props) => {
   // Initial state should be null or an empty object
   const initialState = {
     _id: null,
@@ -35,6 +36,7 @@ const Dashboard = () => {
   const [data, setData] = useState({ initialState });
   const [oldData, setOldData] = useState(data);
   const [socket, setSocket] = useState(null);
+  const lang = getTranslation(props.lang);
 
   useEffect(() => {
     const newSocket = io(process.env.WS_SERVER); // Get websocket server URL from .env
@@ -133,7 +135,7 @@ const Dashboard = () => {
                           fill="#1A1A1A"
                         />
                       </svg>
-                      Humidity:{" "}
+                      {lang?.iotNexus?.dashboard?.humidity}:{" "}
                       <span className="font-semibold">{data.humidity}</span>
                     </div>
                     <div className="flex space-x-1">
@@ -161,25 +163,25 @@ const Dashboard = () => {
                           fill="#1A1A1A"
                         />
                       </svg>
-                      Temperature:{" "}
+                      {lang?.iotNexus?.dashboard?.temperature}:{" "}
                       <span className="font-semibold">{data.temperature}</span>
                     </div>
                     <hr className="h-px my-2 bg-gray-200 border-0 dark:bg-gray-700" />
                     <p>
-                      Live Status:{" "}
+                      {lang?.iotNexus?.dashboard?.liveStatus}:{" "}
                       {data.liveStatus ? (
                         <Chip
                           startContent={<CheckIcon size={18} />}
                           variant="faded"
                           color="success">
-                          Running
+                          {lang?.iotNexus?.dashboard?.state?.run}
                         </Chip>
                       ) : (
                         <Chip
                           startContent={<CrossIcon size={18} />}
                           variant="faded"
                           color="danger">
-                          Stopped
+                          {lang?.iotNexus?.dashboard?.state?.stop}
                         </Chip>
                       )}
                     </p>
@@ -222,7 +224,7 @@ const Dashboard = () => {
                 <Card>
                   <CardBody>
                     <div className="flex space-x-4">
-                      <span>Turn On/Off:</span>
+                      <span>{lang?.iotNexus?.dashboard?.switch}:</span>
                       <div>
                         <Switch
                           isSelected={data.liveStatus}
