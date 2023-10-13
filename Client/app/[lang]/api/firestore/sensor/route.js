@@ -230,3 +230,21 @@ const calculateAverageByMonth = (data, month) => {
     avgTemperature,
   };
 };
+
+export const deleteSensorDataCollection = async () => {
+  try {
+    const sensorDataCollectionRef = collection(fire_db, "sensor-data");
+
+    // Get all documents within the collection
+    const querySnapshot = await getDocs(sensorDataCollectionRef);
+
+    // Delete each document in the collection one by one
+    querySnapshot.forEach(async (doc) => {
+      await deleteDoc(doc.ref);
+    });
+
+    return "Collection 'sensor-data' deleted successfully.";
+  } catch (error) {
+    throw error;
+  }
+};

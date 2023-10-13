@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useMemo } from "react";
+import { useDispatch } from "react-redux";
 import {
   Table,
   TableHeader,
@@ -13,17 +14,25 @@ import {
   Tooltip,
   Pagination,
   Spinner,
+  ButtonGroup,
+  Button,
 } from "@nextui-org/react";
-import { getActivityPaginate } from "../api/firestore/sensor/route";
+import {
+  deleteSensorDataCollection,
+  getActivityPaginate,
+} from "../api/firestore/sensor/route";
 import { columns } from "../constants/activity.constant";
 import { BlurTop } from "./reusable/BlurBack";
+import { showToast } from "../redux/slices/toastSlice";
 
 export default function ActivityPage() {
+  const dispatch = useDispatch();
   const [activityData, setActivityData] = useState([]);
 
   const [page, setPage] = useState(0);
   const [nextPage, setNextPage] = useState(null);
   const rowsPerPage = 10;
+  const [reset, setReset] = useState(0);
 
   const pages = useMemo(() => {
     return activityData?.count
@@ -44,13 +53,49 @@ export default function ActivityPage() {
     }
   };
 
+  const handlePrint = () => {
+    // Open the browser's print dialog
+    window.print();
+  };
+
+  const handleClearClutter = async () => {
+    try {
+      const response = await deleteSensorDataCollection();
+      setReset(response && 1);
+      alert(response);
+    } catch (error) {
+      console.error("Error fetching activity data:", error);
+    }
+  };
+
+  const handleFilter = () => {
+    dispatch(
+      showToast({
+        type: "secondary",
+        title: "Not Implemented",
+        message: "Reserved for filter option",
+      })
+    );
+  };
+
   useEffect(() => {
     fetchActivityData();
-  }, [page]);
+  }, [page, reset]);
 
   return (
     <>
       <BlurTop />
+      <ButtonGroup className="float-right pr-4">
+        <Button color="danger" onClick={handlePrint}>
+          Print
+        </Button>
+        <Button color="secondary" onClick={handleClearClutter}>
+          Clear Clutter
+        </Button>
+        <Button color="warning" onClick={handleFilter}>
+          Filter
+        </Button>
+      </ButtonGroup>
       <Table
         aria-label="Example table with dynamic content"
         bottomContent={
