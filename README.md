@@ -6,6 +6,7 @@ The IoT Link Nexus project is a web application built using Next.js and Node.js,
 
 - [Features](#features)
 - [Project Structure](#project-structure)
+- [How to set Rules for Firebase](#how-to-set-rules-for-firebase)
 - [How to Run](#how-to-run)
 - [How to Deploy as a Containerized App](#how-to-deploy-as-a-containerized-app)
 - [Conclusion](#conclusion)
@@ -46,6 +47,29 @@ The project is divided into the following components and utilities:
 - `locales`: Contains JSON language files.
 - `middleware`: for error logging.
 - `webSocket`: webSocket server.
+
+## How to set Rules for Firebase
+
+In Firebase Real-time Database you can set rules to prevent un-authorised access. Below is some example how you can restrict. It can be made more complex according to project need.
+
+```json
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+
+    "power": {
+      ".read": true, // Allow read access to the "power" key
+      ".write": true // Allow write access to the "power" key
+    },
+
+    "sensor": {
+      ".read": true, // Allow read access to the "sensor" key
+      ".write": true // Allow write access to the "sensor" key
+    }
+  }
+}
+```
 
 ## How to Run
 
