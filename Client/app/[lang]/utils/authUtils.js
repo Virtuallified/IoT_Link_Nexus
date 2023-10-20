@@ -72,24 +72,25 @@ export const useAuthState = () => {
 };
 
 // Update a user's profile
-export const updateUserProfile = async (...updatedDetails) => {
-  const { user } = useAuthState();
-  const { displayName, email, phoneNumber, photoURL } = updatedDetails;
-  try {
-    await updateProfile(user, {
-      displayName,
-      email,
-      phoneNumber,
-      photoURL,
-    }).then(() => {
-      console.log("Profile updated successfully");
-    });
-    // You can return a success message or any other data here if needed
-  } catch (error) {
-    console.error("Error updating profile:", error);
-    throw error; // You can re-throw the error to handle it elsewhere
-  }
-};
+// export const updateUserProfile = async (...updatedDetails) => {
+//   // !Error: React Hook "useAuthState" is called in function "updateUserProfile" that is neither a React function component nor a custom React Hook function.
+//   const { user } = useAuthState();
+//   const { displayName, email, phoneNumber, photoURL } = updatedDetails;
+//   try {
+//     await updateProfile(user, {
+//       displayName,
+//       email,
+//       phoneNumber,
+//       photoURL,
+//     }).then(() => {
+//       console.log("Profile updated successfully");
+//     });
+//     // You can return a success message or any other data here if needed
+//   } catch (error) {
+//     console.error("Error updating profile:", error);
+//     throw error; // You can re-throw the error to handle it elsewhere
+//   }
+// };
 
 // Set a user's email address
 export const updateUserEmail = async (newEmail) => {
