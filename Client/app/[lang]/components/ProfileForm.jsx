@@ -3,6 +3,7 @@ import { Field, reduxForm, initialize } from "redux-form";
 import { BlurBottom } from "./reusable/BlurBack";
 import { Chip } from "@nextui-org/react";
 import { getTranslation } from "../utils/translateUtils";
+import { defaultTranslation } from "../constants/translationKey.constant";
 
 const ProfileForm = ({
   handleSubmit,
@@ -12,7 +13,7 @@ const ProfileForm = ({
   ...props
 }) => {
   let user;
-  const lang = getTranslation(props.lang);
+  const loadLocale = getTranslation(props.lang);
   const timestamp = "1695412816016"; // Assuming this is your timestamp as a string
   const date = new Date(parseInt(timestamp, 10)); // Parse the timestamp and create a Date object
 
@@ -46,10 +47,12 @@ const ProfileForm = ({
       <form onSubmit={handleSubmit}>
         <div className="border-b border-gray-900/10 pb-12">
           <h2 className="text-base font-semibold leading-7 text-gray-900">
-            {lang?.iotNexus?.profile?.title}
+            {loadLocale?.iotNexus?.profile.title ||
+              defaultTranslation.iotNexus?.profile.title}
           </h2>
           <p className="mt-1 text-sm leading-6 text-gray-600">
-            {lang?.iotNexus?.profile?.disclaimer}
+            {loadLocale?.iotNexus?.profile.disclaimer ||
+              defaultTranslation.iotNexus?.profile.disclaimer}
             <Chip variant="flat" color="secondary" className="ml-2">
               {`Last Login At: ${formattedDate}`}
             </Chip>

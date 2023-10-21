@@ -16,6 +16,7 @@ import { BarChart } from "./dashboard/BarChart";
 import { LineChart } from "./dashboard/LineChart";
 import { Gauge } from "./dashboard/Gauge";
 import { getTranslation } from "../utils/translateUtils";
+import { defaultTranslation } from "../constants/translationKey.constant";
 
 const Dashboard = (props) => {
   // Initial state should be null or an empty object
@@ -36,7 +37,7 @@ const Dashboard = (props) => {
   const [data, setData] = useState({ initialState });
   const [oldData, setOldData] = useState(data);
   const [socket, setSocket] = useState(null);
-  const lang = getTranslation(props.lang);
+  const loadLocale = getTranslation(props.lang);
 
   useEffect(() => {
     const newSocket = io(process.env.WS_SERVER); // Get websocket server URL from .env
@@ -135,8 +136,9 @@ const Dashboard = (props) => {
                           fill="#1A1A1A"
                         />
                       </svg>
-                      {lang?.iotNexus?.dashboard?.humidity}:{" "}
-                      <span className="font-semibold">{data.humidity}</span>
+                      {loadLocale?.iotNexus?.dashboard.humidity ||
+                        defaultTranslation.iotNexus?.dashboard.humidity}
+                      : <span className="font-semibold">{data.humidity}</span>
                     </div>
                     <div className="flex space-x-1">
                       <svg
@@ -163,25 +165,31 @@ const Dashboard = (props) => {
                           fill="#1A1A1A"
                         />
                       </svg>
-                      {lang?.iotNexus?.dashboard?.temperature}:{" "}
+                      {loadLocale?.iotNexus?.dashboard.temperature ||
+                        defaultTranslation.iotNexus?.dashboard.temperature}
+                      :{" "}
                       <span className="font-semibold">{data.temperature}</span>
                     </div>
                     <hr className="h-px my-2 bg-gray-200 border-0 dark:bg-gray-700" />
                     <p>
-                      {lang?.iotNexus?.dashboard?.liveStatus}:{" "}
+                      {loadLocale?.iotNexus?.dashboard.liveStatus ||
+                        defaultTranslation.iotNexus?.dashboard.liveStatus}
+                      :{" "}
                       {data.liveStatus ? (
                         <Chip
                           startContent={<CheckIcon size={18} />}
                           variant="faded"
                           color="success">
-                          {lang?.iotNexus?.dashboard?.state?.run}
+                          {loadLocale?.iotNexus?.dashboard.state.run ||
+                            defaultTranslation.iotNexus?.dashboard.state.run}
                         </Chip>
                       ) : (
                         <Chip
                           startContent={<CrossIcon size={18} />}
                           variant="faded"
                           color="danger">
-                          {lang?.iotNexus?.dashboard?.state?.stop}
+                          {loadLocale?.iotNexus?.dashboard?.state.stop ||
+                            defaultTranslation.iotNexus?.dashboard.state.stop}
                         </Chip>
                       )}
                     </p>
@@ -224,7 +232,11 @@ const Dashboard = (props) => {
                 <Card>
                   <CardBody>
                     <div className="flex space-x-4">
-                      <span>{lang?.iotNexus?.dashboard?.switch}:</span>
+                      <span>
+                        {loadLocale?.iotNexus?.dashboard.switch ||
+                          defaultTranslation.iotNexus?.dashboard.switch}
+                        :
+                      </span>
                       <div>
                         <Switch
                           isSelected={data.liveStatus}

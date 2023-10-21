@@ -3,6 +3,7 @@ import { Field, reduxForm } from "redux-form";
 import { useRouter } from "next/navigation";
 import { BlurTop } from "./reusable/BlurBack";
 import { getTranslation } from "../utils/translateUtils";
+import { defaultTranslation } from "../constants/translationKey.constant";
 
 /* Validation */
 const required = (value) => (value ? undefined : "This field is required");
@@ -14,7 +15,7 @@ const emailValidator = (value) =>
 const LoginForm = ({ handleSubmit, ...props }) => {
   const router = useRouter();
   const handleNavigate = (path = "#") => router.push(path);
-  const lang = getTranslation(props.lang);
+  const loadLocale = getTranslation(props.lang);
 
   return (
     <>
@@ -35,7 +36,8 @@ const LoginForm = ({ handleSubmit, ...props }) => {
             alt="IoT Link Nexus"
           />
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-            {lang?.iotNexus?.login?.title}
+            {loadLocale?.iotNexus?.login.title ||
+              defaultTranslation.iotNexus?.login.title}
           </h2>
         </div>
 
@@ -72,7 +74,8 @@ const LoginForm = ({ handleSubmit, ...props }) => {
                   <a
                     href="#"
                     className="font-semibold text-indigo-600 hover:text-indigo-500">
-                    {lang?.iotNexus?.login?.forgot}
+                    {loadLocale?.iotNexus?.login.forgot ||
+                      defaultTranslation.iotNexus?.login.forgot}
                   </a>
                 </div>
               </div>
@@ -94,13 +97,15 @@ const LoginForm = ({ handleSubmit, ...props }) => {
               <button
                 type="submit"
                 className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                {lang?.iotNexus?.login?.button}
+                {loadLocale?.iotNexus?.login.button ||
+                  defaultTranslation.iotNexus?.login.button}
               </button>
             </div>
           </form>
 
           <p className="mt-10 text-center text-sm text-gray-500">
-            {lang?.iotNexus?.login?.not_member}{" "}
+            {loadLocale?.iotNexus?.login.not_member ||
+              defaultTranslation.iotNexus?.login.not_member}{" "}
             <a
               onClick={() => handleNavigate("/register")}
               className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500 hover:cursor-pointer">
