@@ -1,0 +1,39 @@
+# Ignore Node.js modules and dependencies
+node_modules
+
+# Ignore npm/yarn logs
+npm-debug.log
+yarn-error.log
+
+# Ignore development and build files
+.git
+.gitignore
+.DS_Store
+*.log
+*.lock
+*.swp
+*.pem
+
+# Ignore test files and directories
+__tests__
+test
+tests
+*.test.js
+
+# Ignore any local environment configuration files
+#.env
+.env.local
+.env.development
+.env.test
+.env.production
+
+# Ignore user-specific files or directories
+.idea
+.vscode
+
+# Ignore editor backup files
+*.bak
+
+# Ignore build directories
+build
+dist
