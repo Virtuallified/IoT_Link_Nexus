@@ -2,6 +2,10 @@
 
 The IoT Link Nexus project is a web application built using Next.js and Node.js, enabling users to monitor and control IoT devices through Firebase Realtime/Firestore. The project includes features such as user authentication, real-time data display, error logging, and the ability to capture and download snapshots of the dashboard.
 
+### Note:
+  - If you want to upgrade it or like to add some features or want to do any enhancement, please feel free to fork or create your own feature branch and raise a pull request.
+  I'ld be glad to new features on top of it. Thank you.
+  
 ## Table of Contents
 
 - [Features](#features)
@@ -9,6 +13,7 @@ The IoT Link Nexus project is a web application built using Next.js and Node.js,
 - [How to set Rules for Firebase](#how-to-set-rules-for-firebase)
 - [How to Run](#how-to-run)
 - [How to Deploy as a Containerized App](#how-to-deploy-as-a-containerized-app)
+- [Screenshot](#screenshot)
 - [Conclusion](#conclusion)
 - [License](#license)
 - [Acknowledgments](#acknowledgments)
@@ -47,6 +52,9 @@ The project is divided into the following components and utilities:
 - `locales`: Contains JSON language files.
 - `middleware`: for error logging.
 - `webSocket`: webSocket server.
+
+### IoT_Device
+- micropython files to get temperature and humidity data.
 
 ## How to set Rules for Firebase
 
@@ -114,10 +122,10 @@ In Firebase Real-time Database you can set rules to prevent un-authorised access
 
 3.  Start the multi-container application:
 
-    `docker-compose up`
+    `docker-compose up -d`
 
-4.  Access the Next.js app at `http://localhost:3000`.
-5.  Communicate with the Node.js app with Socket.IO at `http://localhost:5000`.
+4.  Access the Next.js app at `http://localhost/`.
+5.  Communicate with the Node.js app with Socket.IO & i18n agent at `3011` & `3012` port accordingly..
 6.  To stop and remove the containers while preserving data volumes:
 
     `docker-compose down`
@@ -125,6 +133,13 @@ In Firebase Real-time Database you can set rules to prevent un-authorised access
     To remove the containers and associated volumes:
 
     `docker-compose down -v`
+
+## Screenshot
+  1. ### Dashboard
+![dash](https://github.com/Virtuallified/IoT_Link_Nexus/assets/64164597/68934b87-89e3-4819-8007-8fb8c202dd48)
+  
+  2. ### Running on Docker Container
+![dock](https://github.com/Virtuallified/IoT_Link_Nexus/assets/64164597/7b58a29b-9723-4dbe-9171-05872125478f)
 
 ## Conclusion
 
