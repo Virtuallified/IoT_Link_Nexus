@@ -1,0 +1,22 @@
+version: "3"
+services:
+  iotnexus-client:
+    build:
+      context: ./client
+    ports:
+      # The syntax for ports is HOST:CONTAINER. Opp. of Dockerfile.
+      - "80:3000"
+    depends_on:
+      - iotnexus-server
+  iotnexus-server:
+    build:
+      context: ./server
+    ports:
+      - "3011:3011"
+      - "3012:3012"
+networks:
+  iotnet:
+    ipam:
+      driver: default
+volumes:
+  iotnexus:
