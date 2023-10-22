@@ -21,7 +21,7 @@ import {
   deleteSensorDataCollection,
   getActivityPaginate,
 } from "../api/firestore/sensor/route";
-import { columns } from "../constants/activity.constant";
+import { activity } from "../constants/table.constant";
 import { BlurTop } from "./reusable/BlurBack";
 import { showToast } from "../redux/slices/toastSlice";
 
@@ -97,7 +97,7 @@ export default function ActivityPage() {
         </Button>
       </ButtonGroup>
       <Table
-        aria-label="Example table with dynamic content"
+        aria-label="Activity table with dynamic content"
         bottomContent={
           pages > 0 ? (
             <div className="flex w-full justify-center">
@@ -116,7 +116,7 @@ export default function ActivityPage() {
         classNames={{
           wrapper: "min-h-[222px]",
         }}>
-        <TableHeader columns={columns}>
+        <TableHeader columns={activity.columns}>
           {(column) => (
             <TableColumn key={column.key}>{column.label}</TableColumn>
           )}
