@@ -10,8 +10,8 @@ app.use(cors());
 const server = http.createServer(app);
 const io = socketIo(server, {
   cors: {
-    // origin: "*",    // Not recommended in Production
-    origin: `${process.env.CLIENT_DOMAIN}:${process.env.CLIENT_PORT || "80"}`,
+    origin: "*", // Not recommended in Production
+    // origin: `${process.env.CLIENT_DOMAIN}:${process.env.CLIENT_PORT || "80"}`,
   },
 });
 
